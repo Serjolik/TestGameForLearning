@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Ink.Runtime;
-using UnityEngine.EventSystems;
 
 public class DialogeManager : MonoBehaviour
 {
@@ -66,7 +64,6 @@ public class DialogeManager : MonoBehaviour
         continueStory();
     }
 
-
     private IEnumerator ExitDialogeMode()
     {
 
@@ -76,6 +73,7 @@ public class DialogeManager : MonoBehaviour
         dialogePanel.SetActive(false);
         dialogeText.text = "";
     }
+
     private void continueStory()
     {
         if (isTalking)

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DrawingTrigger : MonoBehaviour
@@ -16,7 +14,7 @@ public class DrawingTrigger : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            objectPosition.z--;
+            objectPosition.z = objectPosition.z - 2;
             positionTransform();
         }
     }
@@ -25,7 +23,7 @@ public class DrawingTrigger : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            objectPosition.z++;
+            objectPosition.z = objectPosition.z + 2;
             positionTransform();
         }
     }

@@ -35,5 +35,4 @@ public class LightController : MonoBehaviour
         position = lastpos;
         this.transform.eulerAngles = new Vector3(0, 0, angle);
     }
-
 }

@@ -3,27 +3,22 @@ using System.Collections.Generic;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public Rigidbody2D body;
-    public Animator animator;
 
-    public float runSpeed = 5.0f;
+    [SerializeField] private Rigidbody2D body;
+    [SerializeField] private Animator animator;
+    [SerializeField] private LightController LightController;
+    [SerializeField] private float runSpeed = 5.0f;
 
     private Dictionary<string, bool> position;
-
     public KeyValuePair<string, bool> lastPos { get; private set; }
-
     private static string StartPosition = "IsDown";
-
-    public LightController LightController;
-
     Vector2 movement;
+
     // Start is called before the first frame update
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
-
         lastPos = new KeyValuePair<string, bool>(StartPosition, true);
-
         position = new Dictionary<string, bool>()
         {
             { "IsUp", false},
@@ -53,27 +48,26 @@ public class PlayerMovement : MonoBehaviour
                 position[lastPos.Key] = !lastPos.Value;
                 position["IsUp"] = true;
                 lastPos = new KeyValuePair<string, bool>("IsUp", true);
-                LightController.LightTransform(lastPos.Key);
                 break;
             case Vector2 v when v.Equals(Vector2.down):
                 position[lastPos.Key] = !lastPos.Value;
                 position["IsDown"] = true;
                 lastPos = new KeyValuePair<string, bool>("IsDown", true);
-                LightController.LightTransform(lastPos.Key);
                 break;
             case Vector2 v when v.Equals(Vector2.right):
                 position[lastPos.Key] = !lastPos.Value;
                 position["IsRight"] = true;
                 lastPos = new KeyValuePair<string, bool>("IsRight", true);
-                LightController.LightTransform(lastPos.Key);
                 break;
             case Vector2 v when v.Equals(Vector2.left):
                 position[lastPos.Key] = !lastPos.Value;
                 position["IsLeft"] = true;
                 lastPos = new KeyValuePair<string, bool>("IsLeft", true);
-                LightController.LightTransform(lastPos.Key);
                 break;
         }
+
+        LightController.LightTransform(lastPos.Key);
+
         foreach (var pos in position)
         {
             animator.SetBool(pos.Key, pos.Value);
@@ -84,6 +78,5 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         body.MovePosition(body.position + runSpeed * Time.fixedDeltaTime * movement);
-        
     }
 }
