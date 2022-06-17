@@ -9,8 +9,11 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private Transform PlayerTransform;
     [Header("Stats")]
     [SerializeField] private bool is_alive;
-    [SerializeField] private int hp;
+    [SerializeField] private int max_hp;
+    [SerializeField] private int current_hp;
     [SerializeField] private float player_speed;
+    [SerializeField] private float attack_speed;
+    [SerializeField] private float attack_damage;
 
     private int damage;
     private Vector3 position;
@@ -29,9 +32,9 @@ public class PlayerStats : MonoBehaviour
                 Debug.Log("Unknow type of damage");
                 break;
         }
-        this.hp -= damage;
+        this.current_hp -= damage;
         
-        if (this.hp <= 0)
+        if (this.current_hp <= 0)
         {
             this.is_alive = false;
         }
@@ -39,7 +42,12 @@ public class PlayerStats : MonoBehaviour
 
     public int HowMuchHp()
     {
-        return this.hp;
+        return this.current_hp;
+    }
+
+    public int MaxHp()
+    {
+        return this.max_hp;
     }
 
     public float PlayerSpeed()
@@ -50,6 +58,16 @@ public class PlayerStats : MonoBehaviour
     public bool PlayerIsAlive()
     {
         return this.is_alive;
+    }
+
+    public float AttackSpeed()
+    {
+        return (1 / this.attack_speed);
+    }
+
+    public float AttackDamage()
+    {
+        return this.attack_damage;
     }
     
     public Vector3 PlayerPosition()

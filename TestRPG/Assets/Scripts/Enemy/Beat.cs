@@ -7,24 +7,30 @@ public class Beat : MonoBehaviour
     [Header("PlayerStats")]
     [SerializeField] public PlayerStats player;
 
-    [SerializeField] public int hp;
+    [SerializeField] public float hp;
     [SerializeField] public float attack_delay;
 
     [SerializeField] public string type_of_damage;
 
     private bool can_attack = true;
-    private bool in_range;
+    private bool can_be_attacked = true;
+    private bool in_player_range;
+    private bool in_flashlight_range;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
-            in_range = true;
+            in_player_range = true;
+        if (collision.gameObject.tag == "Flashlight")
+            in_flashlight_range = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
-            in_range = false;
+            in_player_range = false;
+        if (collision.gameObject.tag == "Flashlight")
+            in_flashlight_range = false;
     }
 
     void Attack()
@@ -35,7 +41,12 @@ public class Beat : MonoBehaviour
 
     void BeenAttacked()
     {
-        this.hp--;
+        this.hp -= player.AttackDamage();
+        StartCoroutine(PlayerAttackDelay());
+        if (this.hp <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     IEnumerator AttackDelay()
@@ -45,12 +56,22 @@ public class Beat : MonoBehaviour
         can_attack = true;
     }
 
+    IEnumerator PlayerAttackDelay()
+    {
+        can_be_attacked = false;
+        yield return new WaitForSeconds(player.AttackSpeed());
+        can_be_attacked = true;
+    }
+
     private void Update()
     {
-        if (!in_range || !can_attack)
+        if (in_player_range && can_attack)
         {
-            return;
+            Attack();
         }
-        Attack();
+        if (in_flashlight_range && can_be_attacked)
+        {
+            BeenAttacked();
+        }
     }
 }
