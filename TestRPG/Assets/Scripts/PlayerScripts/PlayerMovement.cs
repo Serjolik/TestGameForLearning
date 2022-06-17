@@ -3,11 +3,15 @@ using System.Collections.Generic;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private PlayerStats player;
 
+    [Header("PlayerObjects")]
     [SerializeField] private Rigidbody2D body;
     [SerializeField] private Animator animator;
     [SerializeField] private LightController LightController;
-    [SerializeField] private float runSpeed = 5.0f;
+
+
+    private float runSpeed;
 
     private Dictionary<string, bool> position;
     public KeyValuePair<string, bool> lastPos { get; private set; }
@@ -17,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        runSpeed = player.PlayerSpeed();
         body = GetComponent<Rigidbody2D>();
         lastPos = new KeyValuePair<string, bool>(StartPosition, true);
         position = new Dictionary<string, bool>()
@@ -30,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (DialogeManager.GetInstance().dialogeIsPlaying)
+        if (DialogeManager.GetInstance().dialogeIsPlaying || !player.PlayerIsAlive())
         {
             return;
         }

@@ -14,7 +14,7 @@ public class DrawingTrigger : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            objectPosition.z = objectPosition.z - 2;
+            objectPosition.z -= 2;
             positionTransform();
         }
     }
@@ -23,7 +23,7 @@ public class DrawingTrigger : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            objectPosition.z = objectPosition.z + 2;
+            objectPosition.z += 2;
             positionTransform();
         }
     }
