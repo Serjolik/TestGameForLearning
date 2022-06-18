@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Beat : MonoBehaviour
 {
+    [Header("ParticleSystem")]
+    [SerializeField] public ParticleSystem particles;
+
     [Header("PlayerStats")]
     [SerializeField] public PlayerStats player;
 
@@ -56,11 +59,18 @@ public class Beat : MonoBehaviour
         can_attack = true;
     }
 
+    private void Start()
+    {
+        particles.Stop();
+    }
+
     IEnumerator PlayerAttackDelay()
     {
+        particles.Play();
         can_be_attacked = false;
         yield return new WaitForSeconds(player.AttackSpeed());
         can_be_attacked = true;
+        particles.Stop();
     }
 
     private void Update()
