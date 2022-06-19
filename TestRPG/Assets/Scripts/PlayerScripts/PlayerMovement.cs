@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -10,27 +11,45 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private LightController LightController;
 
-
-    private float runSpeed;
-
     private Dictionary<string, bool> position;
     public KeyValuePair<string, bool> lastPos { get; private set; }
-    private static string StartPosition = "IsDown";
-    Vector2 movement;
+    private static string StartPosition;
+    private float runSpeed;
+
+    public Vector2 movement;
+    private Vector2 movement_sign;
+    private Vector2 up_left;
+    private Vector2 up_right;
+    private Vector2 down_left;
+    private Vector2 down_right;
+    private Vector2 empty_vector;
 
     // Start is called before the first frame update
     void Start()
     {
+        StartPosition = "IsDown";
+
+        up_left = new Vector2(-1, 1);
+        up_right = new Vector2(1, 1);
+        down_left = new Vector2(-1, -1);
+        down_right = new Vector2(1, -1);
+        empty_vector = new Vector2(0, 0);
+
         runSpeed = player.PlayerSpeed();
-        body = GetComponent<Rigidbody2D>();
+
         lastPos = new KeyValuePair<string, bool>(StartPosition, true);
         position = new Dictionary<string, bool>()
         {
             { "IsUp", false},
             { "IsDown", false},
             { "IsRight", false},
-            { "IsLeft", false}
+            { "IsLeft", false},
+            { "IsUpLeft", false},
+            { "IsUpRight", false},
+            { "IsDownLeft", false},
+            { "IsDownRight", false}
         };
+        position[StartPosition] = true;
     }
 
     private void Update()
@@ -43,29 +62,50 @@ public class PlayerMovement : MonoBehaviour
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
         movement.Normalize();
+        movement_sign = new Vector2(Math.Sign(movement.x), Math.Sign(movement.y));
         animator.SetFloat("Horizontal", movement.x);
         animator.SetFloat("Vertical", movement.y);
         animator.SetFloat("Speed", movement.sqrMagnitude);
 
-        switch (movement)
+        if (movement_sign.Equals(empty_vector))
         {
+            return;
+        }
+
+        position[lastPos.Key] = !lastPos.Value;
+
+        switch (movement_sign)
+        {
+            case Vector2 v when v.Equals(up_left):
+                position["IsUpLeft"] = true;
+                lastPos = new KeyValuePair<string, bool>("IsUpLeft", true);
+                break;
+            case Vector2 v when v.Equals(up_right):
+                position["IsUpRight"] = true;
+                lastPos = new KeyValuePair<string, bool>("IsUpRight", true);
+                break;
+            case Vector2 v when v.Equals(down_left):
+                position["IsDownLeft"] = true;
+                lastPos = new KeyValuePair<string, bool>("IsDownLeft", true);
+                break;
+            case Vector2 v when v.Equals(down_right):
+                position["IsDownRight"] = true;
+                lastPos = new KeyValuePair<string, bool>("IsDownRight", true);
+                break;
+
             case Vector2 v when v.Equals(Vector2.up):
-                position[lastPos.Key] = !lastPos.Value;
                 position["IsUp"] = true;
                 lastPos = new KeyValuePair<string, bool>("IsUp", true);
                 break;
             case Vector2 v when v.Equals(Vector2.down):
-                position[lastPos.Key] = !lastPos.Value;
                 position["IsDown"] = true;
                 lastPos = new KeyValuePair<string, bool>("IsDown", true);
                 break;
             case Vector2 v when v.Equals(Vector2.right):
-                position[lastPos.Key] = !lastPos.Value;
                 position["IsRight"] = true;
                 lastPos = new KeyValuePair<string, bool>("IsRight", true);
                 break;
             case Vector2 v when v.Equals(Vector2.left):
-                position[lastPos.Key] = !lastPos.Value;
                 position["IsLeft"] = true;
                 lastPos = new KeyValuePair<string, bool>("IsLeft", true);
                 break;

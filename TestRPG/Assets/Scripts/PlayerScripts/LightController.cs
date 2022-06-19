@@ -31,6 +31,18 @@ public class LightController : MonoBehaviour
             case ("IsLeft"):
                 angle = 90;
                 break;
+            case ("IsUpLeft"):
+                angle = 45;
+                break;
+            case ("IsUpRight"):
+                angle = 315;
+                break;
+            case ("IsDownLeft"):
+                angle = 135;
+                break;
+            case ("IsDownRight"):
+                angle = 225;
+                break;
         }
         position = lastpos;
         this.transform.eulerAngles = new Vector3(0, 0, angle);
