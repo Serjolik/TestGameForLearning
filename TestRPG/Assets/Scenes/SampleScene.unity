@@ -4249,10 +4249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 244555309}
-  body: {fileID: 244555307}
-  animator: {fileID: 244555303}
   LightController: {fileID: 88246151}
-  movement: {x: 0, y: 0}
 --- !u!114 &244555309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4265,13 +4262,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 836f73b2224f7e741a25df06e982e32a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerTransform: {fileID: 244555305}
   is_alive: 1
-  max_hp: 0
-  current_hp: 0
+  max_hp: 15
+  current_hp: 15
   player_speed: 5
   attack_speed: 5
   attack_damage: 1
+  DamageColor: {r: 1, g: 0, b: 0, a: 1}
+  DamageTimeSec: 1
 --- !u!1 &297995364
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,19 +4,19 @@ using System;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("PlayerScripts")]
     [SerializeField] private PlayerStats player;
-
-    [Header("PlayerObjects")]
-    [SerializeField] private Rigidbody2D body;
-    [SerializeField] private Animator animator;
     [SerializeField] private LightController LightController;
+
+    private Rigidbody2D body;
+    private Animator animator;
 
     private Dictionary<string, bool> position;
     public KeyValuePair<string, bool> lastPos { get; private set; }
     private static string StartPosition;
     private float runSpeed;
 
-    public Vector2 movement;
+    private Vector2 movement;
     private Vector2 movement_sign;
     private Vector2 up_left;
     private Vector2 up_right;
@@ -27,6 +27,10 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        body = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+
         StartPosition = "IsDown";
 
         up_left = new Vector2(-1, 1);

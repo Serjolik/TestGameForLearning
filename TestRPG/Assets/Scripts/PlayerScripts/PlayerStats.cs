@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-
-    [Header("Transform")]
-    [SerializeField] private Transform PlayerTransform;
     [Header("Stats")]
     [SerializeField] private bool is_alive;
     [SerializeField] private int max_hp;
@@ -17,6 +14,20 @@ public class PlayerStats : MonoBehaviour
 
     private int damage;
     private Vector3 position;
+
+    private Transform PlayerTransform;
+    private SpriteRenderer SpriteRenderer;
+
+    public Color DamageColor = Color.red;
+    public float DamageTimeSec = 1f;
+    private Color DefaultColor;
+
+    private void Start()
+    {
+        PlayerTransform = GetComponent<Transform>();
+        SpriteRenderer = GetComponent<SpriteRenderer>();
+        DefaultColor = SpriteRenderer.color;
+    }
 
     public void GetDamage(string damage_type)
     {
@@ -32,12 +43,34 @@ public class PlayerStats : MonoBehaviour
                 Debug.Log("Unknow type of damage");
                 break;
         }
+
         this.current_hp -= damage;
-        
+        DamageEffect();
+
         if (this.current_hp <= 0)
         {
             this.is_alive = false;
         }
+    }
+
+    private IEnumerator DamageEffectCoroutine()
+    {
+        float time = 0;
+        float step = 1f / DamageTimeSec;
+
+        while (time < DamageTimeSec)
+        {
+            time += Time.deltaTime;
+            SpriteRenderer.color = Color.Lerp(DamageColor, DefaultColor, step * time);
+
+            yield return null;
+        }
+    }
+
+    public void DamageEffect()
+    {
+        StopCoroutine(nameof(DamageEffectCoroutine));
+        StartCoroutine(nameof(DamageEffectCoroutine));
     }
 
     public int HowMuchHp()
