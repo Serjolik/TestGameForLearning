@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Flashlight
+  - EnemySpawnPos
+  - Enemy
   layers:
   - Default
   - TransparentFX

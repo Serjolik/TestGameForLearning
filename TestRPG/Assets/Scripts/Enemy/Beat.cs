@@ -4,20 +4,18 @@ using UnityEngine;
 public class Beat : MonoBehaviour
 {
     [Header("ParticleSystem")]
-    [SerializeField] public ParticleSystem particles;
+    [SerializeField] private ParticleSystem particles;
 
-    [Header("PlayerStats")]
-    [SerializeField] public PlayerStats player;
-
-    [SerializeField] public float hp;
-    [SerializeField] public float attack_delay;
-
-    [SerializeField] public string type_of_damage;
+    [SerializeField] private float hp;
+    [SerializeField] private float attack_delay;
+    [SerializeField] private string type_of_damage;
 
     private bool can_attack = true;
     private bool can_be_attacked = true;
     private bool in_player_range;
     private bool in_flashlight_range;
+
+    public PlayerStats player;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

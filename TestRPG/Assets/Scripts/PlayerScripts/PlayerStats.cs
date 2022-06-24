@@ -114,6 +114,11 @@ public class PlayerStats : MonoBehaviour
         return this.attack_damage;
     }
     
+    public Transform PlayerTransformPosition()
+    {
+        return this.transform;
+    }
+
     public Vector3 PlayerPosition()
     {
         position = this.PlayerTransform.position;
