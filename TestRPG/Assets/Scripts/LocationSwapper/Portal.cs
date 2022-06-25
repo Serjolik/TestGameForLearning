@@ -6,16 +6,21 @@ public class Portal : MonoBehaviour
     [SerializeField] private Transform CameraPosition;
 
     [Header("Positions")]
-    [SerializeField] private Vector3 NewPlayerPosition;
-    [SerializeField] private Vector3 NewCameraPosition;
+    [SerializeField] private Vector3 newPlayerPosition;
+    [SerializeField] private Vector3 newCameraPosition;
 
-    // Update is called once per frame
+    /*
+     * fixed positions on start scene
+     * newPlayerPosition FR = new Vector3(0f, 9.5f, -1f); SR = (0f, 3f, -1f)
+     * newCameraPosition FR = new Vector3(0f, 13f, -10f); SR = (0f, 0f, -10f)
+     */
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            PlayerPosition.position = NewPlayerPosition;
-            CameraPosition.position = NewCameraPosition;
+            PlayerPosition.position = newPlayerPosition;
+            CameraPosition.position = newCameraPosition;
         }
     }
 }

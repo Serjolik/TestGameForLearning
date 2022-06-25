@@ -5,7 +5,7 @@ using System;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("PlayerScripts")]
-    [SerializeField] private PlayerStats player;
+    [SerializeField] private PlayerStats Player;
     [SerializeField] private LightController LightController;
 
     private Rigidbody2D body;
@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
         down_right = new Vector2(1, -1);
         empty_vector = new Vector2(0, 0);
 
-        runSpeed = player.PlayerSpeed();
+        runSpeed = Player.PlayerSpeed();
 
         lastPos = new KeyValuePair<string, bool>(StartPosition, true);
         position = new Dictionary<string, bool>()
@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (DialogeManager.GetInstance().dialogeIsPlaying || !player.PlayerIsAlive())
+        if (DialogeManager.GetInstance().dialogeIsPlaying || !Player.PlayerIsAlive())
         {
             return;
         }

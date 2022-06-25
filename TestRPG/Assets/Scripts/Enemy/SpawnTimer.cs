@@ -6,9 +6,10 @@ using UnityEngine;
 public class SpawnTimer : MonoBehaviour
 {
     [SerializeField] private PlayerStats player;
-    [SerializeField] private float spawnRate;
     [SerializeField] private GameObject[] Enemies;
     [SerializeField] private Transform[] SpawnPositions;
+    [Header("Spawn rate")]
+    [SerializeField] private float spawnRate;
 
     private List<Transform> SpawnPosList = new List<Transform>();
     private Transform selected_spawn_position;

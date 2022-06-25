@@ -4434,7 +4434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52b1dfe0c8e6d940ba904018dee9cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 244555309}
+  Player: {fileID: 244555309}
   LightController: {fileID: 88246151}
 --- !u!114 &244555309
 MonoBehaviour:
@@ -4924,7 +4924,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e112d7bf51124a041ad04fd118426763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 179330448}
+  Inventory: {fileID: 179330448}
+  Sprites: []
 --- !u!1 &388385749
 GameObject:
   m_ObjectHideFlags: 0
@@ -5337,7 +5338,6 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
-  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -5444,18 +5444,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &519420033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0283a8982652c7f4f82edc94b14e92dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &538102276
 GameObject:
   m_ObjectHideFlags: 0
@@ -5538,8 +5526,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerPosition: {fileID: 244555305}
   CameraPosition: {fileID: 519420032}
-  NewPlayerPosition: {x: 0, y: 3, z: -1}
-  NewCameraPosition: {x: 0, y: 0, z: -10}
+  newPlayerPosition: {x: 0, y: 3, z: -1}
+  newCameraPosition: {x: 0, y: 0, z: -10}
 --- !u!61 &563390996
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5847,7 +5835,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 244555309}
-  spawnRate: 5
   Enemies:
   - {fileID: 7860131525390130693, guid: 5a8e1c5440ea85441be6ad8790e18a83, type: 3}
   SpawnPositions:
@@ -5855,6 +5842,7 @@ MonoBehaviour:
   - {fileID: 639284983}
   - {fileID: 313751534}
   - {fileID: 648830440}
+  spawnRate: 5
 --- !u!4 &639776632
 Transform:
   m_ObjectHideFlags: 0
@@ -9608,8 +9596,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerPosition: {fileID: 244555305}
   CameraPosition: {fileID: 519420032}
-  NewPlayerPosition: {x: 0, y: 9.5, z: -1}
-  NewCameraPosition: {x: 0, y: 13, z: -10}
+  newPlayerPosition: {x: 0, y: 9.5, z: -1}
+  newCameraPosition: {x: 0, y: 13, z: -10}
 --- !u!1 &1758059615
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,21 +6,20 @@ public class PlayerStats : MonoBehaviour
     [Header("Scripts")]
     [SerializeField] private PlayerHpCanvas HpBarScript;
     [Header("Stats")]
-    [SerializeField] private bool is_alive;
-    [SerializeField] private float max_hp;
-    [SerializeField] private float current_hp;
-    [SerializeField] private float player_speed;
-    [SerializeField] private float attack_speed;
-    [SerializeField] private float attack_damage;
+    [SerializeField] private bool is_alive = true;
+    [SerializeField] private float max_hp = 15;
+    [SerializeField] private float current_hp = 15;
+    [SerializeField] private float player_speed = 5;
+    [SerializeField] private float attack_speed = 5;
+    [SerializeField] private float attack_damage = 1;
+    [SerializeField] private Color DamageColor = Color.red;
+    [SerializeField] private float DamageTimeSec = 1f;
 
     private int damage;
     private Vector3 position;
 
     private Transform PlayerTransform;
     private SpriteRenderer SpriteRenderer;
-
-    public Color DamageColor = Color.red;
-    public float DamageTimeSec = 1f;
     private Color DefaultColor;
 
     private void Start()
