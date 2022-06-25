@@ -5,22 +5,17 @@ using UnityEngine;
 
 public class SpawnTimer : MonoBehaviour
 {
+    [SerializeField] private PlayerStats player;
     [SerializeField] private float spawnRate;
     [SerializeField] private GameObject[] Enemies;
-    [SerializeField] private PlayerStats player;
     [SerializeField] private Transform[] SpawnPositions;
 
     private List<Transform> SpawnPosList = new List<Transform>();
-    private List<Transform> FREnemyTransforms = new List<Transform>();
     private Transform selected_spawn_position;
     private bool spawnPause = false;
 
     private void Start()
     {
-        foreach (GameObject Enemy in Enemies)
-        {
-            FREnemyTransforms.Add(Enemy.transform);
-        }
         foreach (Transform transforms in SpawnPositions)
         {
             SpawnPosList.Add(transforms);
