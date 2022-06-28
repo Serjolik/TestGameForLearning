@@ -11,42 +11,61 @@ public class PlayerInventory : MonoBehaviour
     private KeyValuePair<string, string> slot;
     private Image[] images;
     private int index = 0;
+
+    private Dictionary<string, int> imageId;
+
     private void Start()
     {
         images = Inventory.GetComponentsInChildren<Image>();
-        foreach (var im in images)
-        {
-            index++;
-            if (Sprites.Length > index)
-            {
-                im.sprite = Sprites[index];
-            }
-        }
-    }
+        slotsDict = new Dictionary<string, string> { };
 
-    public void SlotAdded(string itemName, string itemAbility)
-    {
-        if (!inventoryIsFull())
+        /*
+         * IN SPRITES:
+         * On the 1 slot is a silver key sprite
+         */
+        imageId = new Dictionary<string, int>
         {
-            return;
-        }
-        slotsDict.Add(itemName, itemAbility);
-    }
-
-    public void Draw(bool active)
-    {
-        Inventory.SetActive(active);
+            { "Silver key", 1 }
+        };
     }
 
     private bool inventoryIsFull()
     {
-        if(slotsDict.Count < 7)
+        if (slotsDict.Count < 7)
         {
             return false;
         }
         else
         {
+            Debug.Log("Inventory is full");
             return true;
         }
+    }
+    private void InventoryPic(string itemName)
+    {
+        index++;
+        if (itemName == "Silver key")
+        {
+            images[index].sprite = Sprites[imageId["Silver key"]];
+        }
+        else
+        {
+            Debug.Log("We dont have this Sprite, please check Sprite name");
+        }
+    }
+    public bool SlotAdded(string itemName, string itemAbility)
+    {
+        if (inventoryIsFull())
+        {
+            return false;
+        }
+        InventoryPic(itemName);
+        slotsDict.Add(itemName, itemAbility);
+        return true;
+    }
+
+    public void Draw(bool active)
+    {
+        Inventory.SetActive(active);
     }
 }
