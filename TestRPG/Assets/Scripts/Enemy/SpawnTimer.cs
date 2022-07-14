@@ -12,8 +12,14 @@ public class SpawnTimer : MonoBehaviour
     [SerializeField] private float spawnRate;
 
     private List<Transform> SpawnPosList = new List<Transform>();
+    private Transform playerTransform;
     private Transform selected_spawn_position;
     private bool spawnPause = false;
+
+    private void Awake()
+    {
+        playerTransform = player.transform;
+    }
 
     private void Start()
     {
@@ -38,11 +44,11 @@ public class SpawnTimer : MonoBehaviour
         selected_spawn_position = SpawnPosList[Random.Range(0, SpawnPosList.Count)];
         foreach (GameObject Enemy in Enemies)
         {
-            Instantiate(Enemy, selected_spawn_position);
             var AIScript = Enemy.GetComponent<AIDestinationSetter>();
             var BeatScript = Enemy.GetComponentInChildren<Beat>();
-            AIScript.target = player.PlayerTransformPosition();
+            AIScript.target = playerTransform;
             BeatScript.player = player;
+            Instantiate(Enemy, selected_spawn_position);
         }
         yield return new WaitForSeconds(spawnRate);
         spawnPause = false;

@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("PlayerScripts")]
     [SerializeField] private PlayerStats Player;
     [SerializeField] private LightController LightController;
+    [Header("Variables")]
+    [SerializeField] private float runSpeed;
 
     private Rigidbody2D body;
     private Animator animator;
@@ -14,7 +16,6 @@ public class PlayerMovement : MonoBehaviour
     private Dictionary<string, bool> position;
     public KeyValuePair<string, bool> lastPos { get; private set; }
     private static string StartPosition;
-    private float runSpeed;
 
     private Vector2 movement;
     private Vector2 movement_sign;
@@ -28,8 +29,8 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
 
-        body = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        body = GetComponentInParent<Rigidbody2D>();
+        animator = GetComponentInParent<Animator>();
 
         StartPosition = "IsDown";
 
@@ -38,8 +39,6 @@ public class PlayerMovement : MonoBehaviour
         down_left = new Vector2(-1, -1);
         down_right = new Vector2(1, -1);
         empty_vector = new Vector2(0, 0);
-
-        runSpeed = Player.PlayerSpeed();
 
         lastPos = new KeyValuePair<string, bool>(StartPosition, true);
         position = new Dictionary<string, bool>()

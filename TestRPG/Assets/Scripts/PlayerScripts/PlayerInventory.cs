@@ -14,7 +14,7 @@ public class PlayerInventory : MonoBehaviour
 
     private Dictionary<string, int> imageId;
 
-    private void Start()
+    private void Awake()
     {
         images = Inventory.GetComponentsInChildren<Image>();
         slotsDict = new Dictionary<string, string> { };

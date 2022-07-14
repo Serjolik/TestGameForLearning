@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -83,21 +84,6 @@ public class PlayerStats : MonoBehaviour
         StartCoroutine(nameof(DamageHpBarCoroutine));
     }
 
-    public float HowMuchHp()
-    {
-        return this.current_hp;
-    }
-
-    public float MaxHp()
-    {
-        return this.max_hp;
-    }
-
-    public float PlayerSpeed()
-    {
-        return this.player_speed;
-    }
-
     public bool PlayerIsAlive()
     {
         return this.is_alive;
@@ -112,15 +98,9 @@ public class PlayerStats : MonoBehaviour
     {
         return this.attack_damage;
     }
-    
-    public Transform PlayerTransformPosition()
-    {
-        return this.transform;
-    }
 
-    public Vector3 PlayerPosition()
+    public Tuple<float, float> HpReturns()
     {
-        position = this.PlayerTransform.position;
-        return this.position;
+        return Tuple.Create(this.current_hp, this.max_hp);
     }
 }

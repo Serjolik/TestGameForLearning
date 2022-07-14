@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class PlayerHpCanvas : MonoBehaviour
 {
@@ -15,7 +16,8 @@ public class PlayerHpCanvas : MonoBehaviour
     private void Start()
     {
         hpFill = 1f;
-        HpTextBoxEdit(player.HowMuchHp(), player.MaxHp());
+        var (playerHp, playerMaxHp) = player.HpReturns();
+        HpTextBoxEdit(playerHp, playerMaxHp);
     }
 
     public void FillBar(float maxHp, float currentHp)
