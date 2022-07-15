@@ -42,19 +42,6 @@ public class DialogeManager : MonoBehaviour
         dialogePanel.SetActive(false);
     }
 
-    private void Update()
-    {
-        if (!dialogeIsPlaying)
-        {
-            return;
-        }
-
-        if (Input.anyKeyDown)
-        {
-            continueStory();
-        }
-    }
-
     public void EnterDialogeMode(TextAsset inkJSON)
     {
         currentStory = new Story(inkJSON.text);
@@ -74,7 +61,7 @@ public class DialogeManager : MonoBehaviour
         dialogeText.text = "";
     }
 
-    private void continueStory()
+    public void continueStory()
     {
         if (isTalking)
         {

@@ -23,6 +23,7 @@ public class DialogeTrigger : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             PlayerCloose = true;
+            visualCue.SetActive(true);
         }
     }
 
@@ -31,6 +32,7 @@ public class DialogeTrigger : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             PlayerCloose = false;
+            visualCue.SetActive(false);
         }
     }
 
@@ -38,15 +40,10 @@ public class DialogeTrigger : MonoBehaviour
     {
         if (PlayerCloose && !DialogeManager.GetInstance().dialogeIsPlaying)
         {
-            visualCue.SetActive(true);
             if (Input.GetKey(KeyCode.E))
             {
                 DialogeManager.GetInstance().EnterDialogeMode(InkJSON);
             }
-        }
-        else
-        {
-            visualCue.SetActive(false);
         }
     }
 }

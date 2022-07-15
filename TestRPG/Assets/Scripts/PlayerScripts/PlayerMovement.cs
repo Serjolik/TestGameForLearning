@@ -24,8 +24,6 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 down_left;
     private Vector2 down_right;
     private Vector2 empty_vector;
-
-    // Start is called before the first frame update
     void Start()
     {
 
@@ -55,16 +53,12 @@ public class PlayerMovement : MonoBehaviour
         position[StartPosition] = true;
     }
 
+    public void MovementSetter(Vector2 movement)
+    {
+        this.movement = movement;
+    }
     private void Update()
     {
-        if (DialogeManager.GetInstance().dialogeIsPlaying || !Player.PlayerIsAlive())
-        {
-            return;
-        }
-
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
-        movement.Normalize();
         movement_sign = new Vector2(Math.Sign(movement.x), Math.Sign(movement.y));
         animator.SetFloat("Horizontal", movement.x);
         animator.SetFloat("Vertical", movement.y);
@@ -122,7 +116,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         body.MovePosition(body.position + runSpeed * Time.fixedDeltaTime * movement);
