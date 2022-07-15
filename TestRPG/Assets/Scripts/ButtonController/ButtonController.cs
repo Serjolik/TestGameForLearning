@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class ButtonController : MonoBehaviour
 {
-    //Does not include buttons on triggers
+    // Does not include buttons on triggers
     [SerializeField] GameObject Menu;
     [SerializeField] PlayerMovement playerMovement;
+    [SerializeField] private PlayerInventory inventory;
 
     private Vector2 movement;
     private bool menuActive = false;
@@ -20,21 +21,34 @@ public class ButtonController : MonoBehaviour
             return;
         }
 
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
-        movement.Normalize();
-        playerMovement.MovementSetter(movement);
+        if (!menuActive)
+        {
+            movement.x = Input.GetAxisRaw("Horizontal");
+            movement.y = Input.GetAxisRaw("Vertical");
+            movement.Normalize();
+            playerMovement.MovementSetter(movement);
+
+            if (Input.GetKey(KeyCode.I))
+            {
+                inventory.Draw(true);
+            }
+            if (Input.GetKeyUp(KeyCode.I))
+            {
+                inventory.Draw(false);
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (menuActive)
             {
-                menuActive = false;
-                Menu.SetActive(false);
+                MenuClosed();
             }
             else
             {
-                Menu.SetActive(true);
-                menuActive = true;
+                MenuOpen();
+                // When Menu open we need to set false inventory drawing
+                inventory.Draw(false);
             }
         }
     }
@@ -42,5 +56,12 @@ public class ButtonController : MonoBehaviour
     {
         menuActive = false;
         Menu.SetActive(false);
+        Time.timeScale = 1;
+    }
+    private void MenuOpen()
+    {
+        Menu.SetActive(true);
+        menuActive = true;
+        Time.timeScale = 0;
     }
 }

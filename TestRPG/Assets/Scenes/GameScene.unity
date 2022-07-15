@@ -4844,7 +4844,6 @@ MonoBehaviour:
   is_alive: 1
   max_hp: 15
   current_hp: 15
-  player_speed: 5
   attack_speed: 5
   attack_damage: 1
   DamageColor: {r: 1, g: 0, b: 0, a: 1}
@@ -9534,6 +9533,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Menu: {fileID: 42270402}
   playerMovement: {fileID: 2044426626}
+  inventory: {fileID: 381570923}
 --- !u!4 &1108488554
 Transform:
   m_ObjectHideFlags: 0
@@ -11253,7 +11253,6 @@ GameObject:
   - component: {fileID: 1928085286}
   - component: {fileID: 1928085285}
   - component: {fileID: 1928085284}
-  - component: {fileID: 1928085287}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -11310,19 +11309,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1928085287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1928085283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2241a62d98e575e49b33e351a2bd706d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventory: {fileID: 381570923}
 --- !u!1 &2022422728
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,7 +10,6 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private bool is_alive = true;
     [SerializeField] private float max_hp = 15;
     [SerializeField] private float current_hp = 15;
-    [SerializeField] private float player_speed = 5;
     [SerializeField] private float attack_speed = 5;
     [SerializeField] private float attack_damage = 1;
     [SerializeField] private Color DamageColor = Color.red;
