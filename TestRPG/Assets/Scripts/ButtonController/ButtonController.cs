@@ -4,11 +4,13 @@ public class ButtonController : MonoBehaviour
 {
     // Does not include buttons on triggers
     [SerializeField] GameObject Menu;
-    [SerializeField] PlayerMovement playerMovement;
+    [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private PlayerInventory inventory;
+    [SerializeField] private PlayerStats playerStats;
 
     private Vector2 movement;
     private bool menuActive = false;
+    private bool pant = false;
     void Update()
     {
 
@@ -23,31 +25,8 @@ public class ButtonController : MonoBehaviour
 
         if (!menuActive)
         {
-            movement.x = Input.GetAxisRaw("Horizontal");
-            movement.y = Input.GetAxisRaw("Vertical");
-            movement.Normalize();
-            if (movement != Vector2.zero && Input.GetKey(KeyCode.LeftShift))
-            {
-                playerMovement.SwitchToRun();
-            }
-            else if (movement != Vector2.zero)
-            {
-                playerMovement.SwitchToWalk();
-            }
-            else
-            {
-                playerMovement.SwitchToStay();
-            }
-            playerMovement.MovementSetter(movement);
-
-            if (Input.GetKey(KeyCode.I))
-            {
-                inventory.Draw(true);
-            }
-            if (Input.GetKeyUp(KeyCode.I))
-            {
-                inventory.Draw(false);
-            }
+            Movement();
+            Inventory();
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -75,5 +54,52 @@ public class ButtonController : MonoBehaviour
         Menu.SetActive(true);
         menuActive = true;
         Time.timeScale = 0;
+    }
+
+    private void Movement()
+    {
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
+        movement.Normalize();
+        if (movement != Vector2.zero && Input.GetKey(KeyCode.LeftShift))
+        {
+            if (playerStats.playerStamina() > 0 && !pant)
+            {
+                playerStats.playerStamina(-0.01f);
+                playerMovement.SwitchToRun();
+            }
+            else if (playerStats.playerStamina() <= 0 && !pant)
+            {
+                pant = true;
+                playerMovement.SwitchToWalk();
+            }
+            else
+            {
+                playerMovement.SwitchToWalk();
+            }
+        }
+        else if (movement != Vector2.zero)
+        {
+            playerMovement.SwitchToWalk();
+        }
+        else
+        {
+            pant = false;
+            playerMovement.SwitchToStay();
+            playerStats.Rest();
+        }
+        playerMovement.MovementSetter(movement);
+    }
+
+    private void Inventory()
+    {
+        if (Input.GetKey(KeyCode.I))
+        {
+            inventory.Draw(true);
+        }
+        if (Input.GetKeyUp(KeyCode.I))
+        {
+            inventory.Draw(false);
+        }
     }
 }

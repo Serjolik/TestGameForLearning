@@ -67,6 +67,9 @@ public class PlayerMovement : MonoBehaviour
     public void MovementSetter(Vector2 movement)
     {
         this.movement = movement;
+        movement_sign = new Vector2(Math.Sign(movement.x), Math.Sign(movement.y));
+        animator.SetFloat("Horizontal", movement.x);
+        animator.SetFloat("Vertical", movement.y);
     }
 
     public void SwitchToRun()
@@ -100,9 +103,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        movement_sign = new Vector2(Math.Sign(movement.x), Math.Sign(movement.y));
-        animator.SetFloat("Horizontal", movement.x);
-        animator.SetFloat("Vertical", movement.y);
         animator.SetFloat("Speed", movement.sqrMagnitude * (currentSpeed / 5));
 
         if (movement_sign.Equals(empty_vector))

@@ -13,7 +13,14 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float attack_speed = 5;
     [SerializeField] private float attack_damage = 1;
     [SerializeField] private Color DamageColor = Color.red;
-    [SerializeField] private float DamageTimeSec = 1f;
+    [SerializeField] private float damageTimeSec = 1f;
+    [SerializeField] private float regenerationTimer = 10f;
+    [SerializeField] private float hpRegeneration = 1f;
+    [SerializeField] private float fullStamina = 10f;
+    [SerializeField] private float staminaRegenetaionSpeed = 0.01f;
+
+    private float stamina;
+    private bool isStaminaRegenerationNow;
 
     private int damage;
     private Vector3 position;
@@ -27,6 +34,7 @@ public class PlayerStats : MonoBehaviour
         PlayerTransform = GetComponent<Transform>();
         SpriteRenderer = GetComponent<SpriteRenderer>();
         DefaultColor = SpriteRenderer.color;
+        stamina = fullStamina;
     }
 
     public void GetDamage(string damage_type)
@@ -46,6 +54,9 @@ public class PlayerStats : MonoBehaviour
 
         HpBarScript.FillDamageBar(max_hp, current_hp);
         this.current_hp -= damage;
+
+        Regeneration();
+
         HpBarScript.FillBar(max_hp, current_hp);
         DamageEffect();
 
@@ -58,9 +69,9 @@ public class PlayerStats : MonoBehaviour
     private IEnumerator DamageEffectCoroutine()
     {
         float time = 0;
-        float step = 1f / DamageTimeSec;
+        float step = 1f / damageTimeSec;
 
-        while (time < DamageTimeSec)
+        while (time < damageTimeSec)
         {
             time += Time.deltaTime;
             SpriteRenderer.color = Color.Lerp(DamageColor, DefaultColor, step * time);
@@ -71,7 +82,7 @@ public class PlayerStats : MonoBehaviour
 
     private IEnumerator DamageHpBarCoroutine()
     {
-        yield return new WaitForSeconds(DamageTimeSec);
+        yield return new WaitForSeconds(damageTimeSec);
         HpBarScript.FillDamageBar(max_hp, 0);
     }
 
@@ -81,6 +92,47 @@ public class PlayerStats : MonoBehaviour
         StopCoroutine(nameof(DamageHpBarCoroutine));
         StartCoroutine(nameof(DamageEffectCoroutine));
         StartCoroutine(nameof(DamageHpBarCoroutine));
+    }
+
+    private void Regeneration()
+    {
+        StopCoroutine(nameof(HpRegenerationCoroutine));
+        StartCoroutine(nameof(HpRegenerationCoroutine));
+    }
+
+    public void Rest()
+    {
+        if (stamina < fullStamina)
+        {
+            if (!isStaminaRegenerationNow)
+            {
+                StartCoroutine(StaminaRegeneration());
+            }
+        }
+        if (stamina > fullStamina)
+        {
+            Debug.Log("Stamina more than necessary");
+            stamina = fullStamina;
+        }
+    }
+
+    private IEnumerator StaminaRegeneration()
+    {
+        isStaminaRegenerationNow = true;
+        yield return new WaitForSeconds(staminaRegenetaionSpeed);
+        stamina += 0.01f;
+        isStaminaRegenerationNow = false;
+    }
+
+    private IEnumerator HpRegenerationCoroutine()
+    {
+        yield return new WaitForSeconds(regenerationTimer);
+        if (current_hp != max_hp)
+        {
+            current_hp += hpRegeneration;
+            HpBarScript.FillBar(max_hp, current_hp);
+            Regeneration();
+        }
     }
 
     public bool PlayerIsAlive()
@@ -101,5 +153,15 @@ public class PlayerStats : MonoBehaviour
     public Tuple<float, float> HpReturns()
     {
         return Tuple.Create(this.current_hp, this.max_hp);
+    }
+
+    public float playerStamina()
+    {
+        return stamina;
+    }
+
+    public void playerStamina(float staminaChange)
+    {
+        stamina += staminaChange;
     }
 }

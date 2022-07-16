@@ -4918,7 +4918,11 @@ MonoBehaviour:
   attack_speed: 5
   attack_damage: 1
   DamageColor: {r: 1, g: 0, b: 0, a: 1}
-  DamageTimeSec: 1
+  damageTimeSec: 1
+  regenerationTimer: 10
+  hpRegeneration: 1
+  fullStamina: 2
+  staminaRegenetaionSpeed: 0.01
 --- !u!1 &276244469
 GameObject:
   m_ObjectHideFlags: 0
@@ -9470,6 +9474,7 @@ MonoBehaviour:
   Menu: {fileID: 42270402}
   playerMovement: {fileID: 2044426626}
   inventory: {fileID: 80378797}
+  playerStats: {fileID: 244555309}
 --- !u!4 &1108488554
 Transform:
   m_ObjectHideFlags: 0
