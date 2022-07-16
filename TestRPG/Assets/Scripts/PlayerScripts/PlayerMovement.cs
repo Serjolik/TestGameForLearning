@@ -5,10 +5,12 @@ using System;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("PlayerScripts")]
-    [SerializeField] private PlayerStats Player;
     [SerializeField] private LightController LightController;
     [Header("Variables")]
-    [SerializeField] private float runSpeed;
+    [SerializeField] private float runSpeed = 5f;
+    [SerializeField] private float walkSpeed = 3f;
+    private float staySpeed = 0f;
+    private float currentSpeed;
 
     private Rigidbody2D body;
     private Animator animator;
@@ -24,13 +26,22 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 down_left;
     private Vector2 down_right;
     private Vector2 empty_vector;
+
+    private enum movementState
+    {
+        walk,
+        run,
+        stay
+    }
+    private movementState state = movementState.stay;
+
     void Start()
     {
-
         body = GetComponentInParent<Rigidbody2D>();
         animator = GetComponentInParent<Animator>();
 
         StartPosition = "IsDown";
+        SwitchToStay();
 
         up_left = new Vector2(-1, 1);
         up_right = new Vector2(1, 1);
@@ -57,12 +68,42 @@ public class PlayerMovement : MonoBehaviour
     {
         this.movement = movement;
     }
+
+    public void SwitchToRun()
+    {
+        currentSpeed = StateHandler(movementState.run);
+    }
+    public void SwitchToWalk()
+    {
+        currentSpeed = StateHandler(movementState.walk);
+    }
+    public void SwitchToStay()
+    {
+        currentSpeed = StateHandler(movementState.stay);
+    }
+
+    private float StateHandler(movementState state)
+    {
+        switch (state)
+        {
+            case movementState.run:
+                return runSpeed;
+            case movementState.walk:
+                return walkSpeed;
+            case movementState.stay:
+                return staySpeed;
+            default:
+                Debug.Log("movement state is not defined");
+                return staySpeed;
+        }
+    }
+
     private void Update()
     {
         movement_sign = new Vector2(Math.Sign(movement.x), Math.Sign(movement.y));
         animator.SetFloat("Horizontal", movement.x);
         animator.SetFloat("Vertical", movement.y);
-        animator.SetFloat("Speed", movement.sqrMagnitude);
+        animator.SetFloat("Speed", movement.sqrMagnitude * (currentSpeed / 5));
 
         if (movement_sign.Equals(empty_vector))
         {
@@ -118,6 +159,6 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        body.MovePosition(body.position + runSpeed * Time.fixedDeltaTime * movement);
+        body.MovePosition(body.position + currentSpeed * Time.fixedDeltaTime * movement);
     }
 }

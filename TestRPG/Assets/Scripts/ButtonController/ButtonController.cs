@@ -26,6 +26,18 @@ public class ButtonController : MonoBehaviour
             movement.x = Input.GetAxisRaw("Horizontal");
             movement.y = Input.GetAxisRaw("Vertical");
             movement.Normalize();
+            if (movement != Vector2.zero && Input.GetKey(KeyCode.LeftShift))
+            {
+                playerMovement.SwitchToRun();
+            }
+            else if (movement != Vector2.zero)
+            {
+                playerMovement.SwitchToWalk();
+            }
+            else
+            {
+                playerMovement.SwitchToStay();
+            }
             playerMovement.MovementSetter(movement);
 
             if (Input.GetKey(KeyCode.I))
