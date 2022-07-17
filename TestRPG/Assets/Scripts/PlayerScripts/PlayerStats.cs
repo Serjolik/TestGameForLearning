@@ -6,6 +6,7 @@ public class PlayerStats : MonoBehaviour
 {
     [Header("Scripts")]
     [SerializeField] private PlayerHpCanvas HpBarScript;
+    [SerializeField] private PlayerStaminaCanvas StaminaBarScript;
     [Header("Stats")]
     [SerializeField] private bool is_alive = true;
     [SerializeField] private float max_hp = 15;
@@ -52,12 +53,12 @@ public class PlayerStats : MonoBehaviour
                 break;
         }
 
-        HpBarScript.FillDamageBar(max_hp, current_hp);
+        HpBarScript.FillDamageBar(current_hp, max_hp);
         this.current_hp -= damage;
 
         Regeneration();
 
-        HpBarScript.FillBar(max_hp, current_hp);
+        HpBarScript.FillBar(current_hp, max_hp);
         DamageEffect();
 
         if (this.current_hp <= 0)
@@ -120,7 +121,7 @@ public class PlayerStats : MonoBehaviour
     {
         isStaminaRegenerationNow = true;
         yield return new WaitForSeconds(staminaRegenetaionSpeed);
-        stamina += 0.01f;
+        playerStamina(0.01f);
         isStaminaRegenerationNow = false;
     }
 
@@ -130,7 +131,7 @@ public class PlayerStats : MonoBehaviour
         if (current_hp != max_hp)
         {
             current_hp += hpRegeneration;
-            HpBarScript.FillBar(max_hp, current_hp);
+            HpBarScript.FillBar(current_hp, max_hp);
             Regeneration();
         }
     }
@@ -162,6 +163,7 @@ public class PlayerStats : MonoBehaviour
 
     public void playerStamina(float staminaChange)
     {
+        StaminaBarScript.FillBar(stamina, fullStamina);
         stamina += staminaChange;
     }
 }

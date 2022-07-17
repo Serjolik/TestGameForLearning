@@ -16,6 +16,7 @@ public class PlayerMenuScript : MonoBehaviour
     public void ReturnToMenuPressed()
     {
         Debug.Log("Return to menu");
+        buttonController.MenuClosed();
         SceneManager.LoadScene("Menu");
     }
 }

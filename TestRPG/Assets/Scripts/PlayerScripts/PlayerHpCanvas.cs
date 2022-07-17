@@ -2,14 +2,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-public class PlayerHpCanvas : MonoBehaviour
+public class PlayerHpCanvas : BaseUI
 {
-    [Header("PlayerStats")]
-    [SerializeField] private PlayerStats player;
-    [Header("Images")]
-    [SerializeField] private Image HpBar;
+    [Header("DamageImage")]
     [SerializeField] private Image HpDamageBar;
-    [SerializeField] private TMPro.TMP_Text textBox;
 
     private float hpFill;
 
@@ -17,24 +13,12 @@ public class PlayerHpCanvas : MonoBehaviour
     {
         hpFill = 1f;
         var (playerHp, playerMaxHp) = player.HpReturns();
-        HpTextBoxEdit(playerHp, playerMaxHp);
-    }
-
-    public void FillBar(float maxHp, float currentHp)
-    {
-        hpFill = currentHp / maxHp;
-        HpBar.fillAmount = hpFill;
-        HpTextBoxEdit(maxHp, currentHp);
+        TextBoxEdit(playerHp, playerMaxHp);
     }
 
     public void FillDamageBar(float maxHp, float lastHp)
     {
         hpFill = lastHp / maxHp;
         HpDamageBar.fillAmount = hpFill;
-    }
-
-    private void HpTextBoxEdit(float maxHp, float currentHp)
-    {
-        textBox.text = "Health: " + currentHp.ToString() + "/" + maxHp.ToString();
     }
 }

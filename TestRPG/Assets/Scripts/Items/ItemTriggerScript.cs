@@ -12,9 +12,13 @@ public class ItemTriggerScript : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            if (playerInventory.SlotAdded(itemName, itemAbility))
+            if (playerInventory.SlotAdded(itemName, itemAbility, GetComponent<SpriteRenderer>().sprite))
             {
                 Destroy(gameObject);
+            }
+            else
+            {
+                Debug.Log("Slot cant added");
             }
         }
     }
