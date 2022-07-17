@@ -4,10 +4,10 @@ using UnityEngine.UI;
 public class BaseUI : MonoBehaviour
 {
     [Header("PlayerStats")]
-    public PlayerStats player;
+    [SerializeField] protected PlayerStats player;
     [Header("Objects")]
-    public Image imageBar;
-    public TMPro.TMP_Text textBox;
+    [SerializeField] private Image imageBar;
+    [SerializeField] protected TMPro.TMP_Text textBox;
 
     private float fill = 1f;
     public virtual void FillBar(float param, float maxParam)

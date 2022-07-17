@@ -13,10 +13,10 @@ public class PlayerHpCanvas : BaseUI
     {
         hpFill = 1f;
         var (playerHp, playerMaxHp) = player.HpReturns();
-        TextBoxEdit(playerHp, playerMaxHp);
+        TextBoxEdit(playerMaxHp, playerMaxHp);
     }
 
-    public void FillDamageBar(float maxHp, float lastHp)
+    public void FillDamageBar(float lastHp, float maxHp)
     {
         hpFill = lastHp / maxHp;
         HpDamageBar.fillAmount = hpFill;

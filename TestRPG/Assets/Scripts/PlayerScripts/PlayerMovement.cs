@@ -14,8 +14,6 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D body;
     private Animator animator;
-
-    private Dictionary<string, bool> position;
     public KeyValuePair<string, bool> lastPos { get; private set; }
     private static string StartPosition;
 
@@ -33,35 +31,36 @@ public class PlayerMovement : MonoBehaviour
         run,
         stay
     }
-    private movementState state = movementState.stay;
+
+    private enum position
+    {
+        IsUp,
+        IsDown,
+        IsRight,
+        IsLeft,
+        IsUpLeft,
+        IsUpRight,
+        IsDownLeft,
+        IsDownRight
+    }
+    private position currentPosition;
+    private position lastPosition;
 
     void Start()
     {
         body = GetComponentInParent<Rigidbody2D>();
         animator = GetComponentInParent<Animator>();
-
-        StartPosition = "IsDown";
         SwitchToStay();
 
         up_left = new Vector2(-1, 1);
         up_right = new Vector2(1, 1);
         down_left = new Vector2(-1, -1);
         down_right = new Vector2(1, -1);
-        empty_vector = new Vector2(0, 0);
 
         lastPos = new KeyValuePair<string, bool>(StartPosition, true);
-        position = new Dictionary<string, bool>()
-        {
-            { "IsUp", false},
-            { "IsDown", false},
-            { "IsRight", false},
-            { "IsLeft", false},
-            { "IsUpLeft", false},
-            { "IsUpRight", false},
-            { "IsDownLeft", false},
-            { "IsDownRight", false}
-        };
-        position[StartPosition] = true;
+
+        currentPosition = position.IsDown;
+        lastPosition = position.IsDown;
     }
 
     public void MovementSetter(Vector2 movement)
@@ -110,51 +109,41 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        position[lastPos.Key] = !lastPos.Value;
+        lastPosition = currentPosition;
 
         switch (movement_sign)
         {
             case Vector2 v when v.Equals(up_left):
-                position["IsUpLeft"] = true;
-                lastPos = new KeyValuePair<string, bool>("IsUpLeft", true);
+                currentPosition = position.IsUpLeft;
                 break;
             case Vector2 v when v.Equals(up_right):
-                position["IsUpRight"] = true;
-                lastPos = new KeyValuePair<string, bool>("IsUpRight", true);
+                currentPosition = position.IsUpRight;
                 break;
             case Vector2 v when v.Equals(down_left):
-                position["IsDownLeft"] = true;
-                lastPos = new KeyValuePair<string, bool>("IsDownLeft", true);
+                currentPosition = position.IsDownLeft;
                 break;
             case Vector2 v when v.Equals(down_right):
-                position["IsDownRight"] = true;
-                lastPos = new KeyValuePair<string, bool>("IsDownRight", true);
+                currentPosition = position.IsDownRight;
                 break;
 
             case Vector2 v when v.Equals(Vector2.up):
-                position["IsUp"] = true;
-                lastPos = new KeyValuePair<string, bool>("IsUp", true);
+                currentPosition = position.IsUp;
                 break;
             case Vector2 v when v.Equals(Vector2.down):
-                position["IsDown"] = true;
-                lastPos = new KeyValuePair<string, bool>("IsDown", true);
+                currentPosition = position.IsDown;
                 break;
             case Vector2 v when v.Equals(Vector2.right):
-                position["IsRight"] = true;
-                lastPos = new KeyValuePair<string, bool>("IsRight", true);
+                currentPosition = position.IsRight;
                 break;
             case Vector2 v when v.Equals(Vector2.left):
-                position["IsLeft"] = true;
-                lastPos = new KeyValuePair<string, bool>("IsLeft", true);
+                currentPosition = position.IsLeft;
                 break;
         }
 
-        LightController.LightTransform(lastPos.Key);
+        LightController.LightTransform(currentPosition.ToString());
 
-        foreach (var pos in position)
-        {
-            animator.SetBool(pos.Key, pos.Value);
-        }
+        animator.SetBool(lastPosition.ToString(), false);
+        animator.SetBool(currentPosition.ToString(), true);
     }
 
     void FixedUpdate()

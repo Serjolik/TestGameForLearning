@@ -5,7 +5,7 @@ public class Beat : MonoBehaviour
 {
     [Header("ParticleSystem")]
     [SerializeField] private ParticleSystem particles;
-
+    [Header("Variables")]
     [SerializeField] private float hp;
     [SerializeField] private float attack_delay;
     [SerializeField] private string type_of_damage;
@@ -41,9 +41,9 @@ public class Beat : MonoBehaviour
 
     void BeenAttacked()
     {
-        this.hp -= player.AttackDamage();
+        hp -= player.AttackDamage();
         StartCoroutine(PlayerAttackDelay());
-        if (this.hp <= 0)
+        if (hp <= 0)
         {
             Destroy(gameObject);
         }

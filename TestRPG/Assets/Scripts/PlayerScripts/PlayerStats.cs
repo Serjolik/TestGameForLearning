@@ -8,17 +8,18 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private PlayerHpCanvas HpBarScript;
     [SerializeField] private PlayerStaminaCanvas StaminaBarScript;
     [Header("Stats")]
-    [SerializeField] private bool is_alive = true;
     [SerializeField] private float max_hp = 15;
-    [SerializeField] private float current_hp = 15;
     [SerializeField] private float attack_speed = 5;
     [SerializeField] private float attack_damage = 1;
-    [SerializeField] private Color DamageColor = Color.red;
     [SerializeField] private float damageTimeSec = 1f;
     [SerializeField] private float regenerationTimer = 10f;
     [SerializeField] private float hpRegeneration = 1f;
     [SerializeField] private float fullStamina = 10f;
     [SerializeField] private float staminaRegenetaionSpeed = 0.01f;
+
+    private bool is_alive = true;
+    private float current_hp;
+    private Color DamageColor = Color.red;
 
     private float stamina;
     private bool isStaminaRegenerationNow;
@@ -36,6 +37,7 @@ public class PlayerStats : MonoBehaviour
         SpriteRenderer = GetComponent<SpriteRenderer>();
         DefaultColor = SpriteRenderer.color;
         stamina = fullStamina;
+        current_hp = max_hp;
     }
 
     public void GetDamage(string damage_type)
@@ -84,7 +86,7 @@ public class PlayerStats : MonoBehaviour
     private IEnumerator DamageHpBarCoroutine()
     {
         yield return new WaitForSeconds(damageTimeSec);
-        HpBarScript.FillDamageBar(max_hp, 0);
+        HpBarScript.FillDamageBar(0, max_hp);
     }
 
     public void DamageEffect()
@@ -109,11 +111,6 @@ public class PlayerStats : MonoBehaviour
             {
                 StartCoroutine(StaminaRegeneration());
             }
-        }
-        if (stamina > fullStamina)
-        {
-            Debug.Log("Stamina more than necessary");
-            stamina = fullStamina;
         }
     }
 
@@ -163,7 +160,23 @@ public class PlayerStats : MonoBehaviour
 
     public void playerStamina(float staminaChange)
     {
-        StaminaBarScript.FillBar(stamina, fullStamina);
         stamina += staminaChange;
+        StaminaValidation();
+        StaminaBarScript.FillBar(stamina, fullStamina);
     }
+
+    private void StaminaValidation()
+    {
+        if (stamina > fullStamina)
+        {
+            stamina = fullStamina;
+            Debug.Log("stamina > full stamina, stamina set to full");
+        }
+        else if (stamina < 0)
+        {
+            stamina = 0;
+            Debug.Log("stamina < 0, stamina set to 0");
+        }
+    }
+
 }
