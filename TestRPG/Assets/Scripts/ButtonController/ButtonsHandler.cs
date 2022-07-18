@@ -65,6 +65,13 @@ public class ButtonsHandler : MonoBehaviour
         playerMovement.MovementSetter(GetMovingButtonsPressed());
     }
 
+    private void StopMoving()
+    {
+        playerMovement.SwitchToStay();
+        playerStamina.Rest();
+        playerMovement.MovementSetter(Vector2.zero);
+    }
+
     protected void Inventory()
     {
         if (Input.GetKey(KeyCode.I))
@@ -81,6 +88,7 @@ public class ButtonsHandler : MonoBehaviour
     {
         if (DialogeManager.GetInstance().dialogeIsPlaying)
         {
+            StopMoving();
             if (Input.anyKeyDown)
             {
                 DialogeManager.GetInstance().continueStory();

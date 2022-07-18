@@ -9,18 +9,16 @@ public class DialogeManager : MonoBehaviour
     [Header("DialogeUI")]
     [SerializeField] private GameObject dialogePanel;
     [SerializeField] private TextMeshProUGUI dialogeText;
-
     [Header("TextWritingSpeed")]
     [SerializeField] private float textWriterSpeed;
 
     private Story currentStory;
-
     private bool isTalking;
-
     private string buffer;
+    public bool dialogeIsPlaying { get; private set; }
+    private bool skip = false;
 
     private static DialogeManager instance;
-    public bool dialogeIsPlaying { get; private set; }
 
     private void Awake()
     {
@@ -38,6 +36,7 @@ public class DialogeManager : MonoBehaviour
 
     private void Start()
     {
+        isTalking = false;
         dialogeIsPlaying = false;
         dialogePanel.SetActive(false);
     }
@@ -47,15 +46,12 @@ public class DialogeManager : MonoBehaviour
         currentStory = new Story(inkJSON.text);
         dialogeIsPlaying = true;
         dialogePanel.SetActive(true);
-
-        continueStory();
     }
 
     private IEnumerator ExitDialogeMode()
     {
 
         yield return new WaitForSeconds(0.2f);
-
         dialogeIsPlaying = false;
         dialogePanel.SetActive(false);
         dialogeText.text = "";
@@ -65,14 +61,12 @@ public class DialogeManager : MonoBehaviour
     {
         if (isTalking)
         {
-            dialogeText.text = buffer;
-            StopAllCoroutines();
+            skip = true;
             isTalking = false;
         }
         else if (currentStory.canContinue)
         {
             buffer = currentStory.Continue();
-            StopAllCoroutines();
             isTalking = true;
             StartCoroutine(textWriter(buffer));
         }
@@ -84,11 +78,15 @@ public class DialogeManager : MonoBehaviour
 
     private IEnumerator textWriter(string buffer)
     {
+        skip = false;
         dialogeText.text = "";
         foreach (char bufferReader in buffer.ToCharArray())
         {
             dialogeText.text += bufferReader;
-            yield return new WaitForSeconds(textWriterSpeed);
+            if (!skip)
+            {
+                yield return new WaitForSeconds(textWriterSpeed);
+            }
         }
         isTalking = false;
 

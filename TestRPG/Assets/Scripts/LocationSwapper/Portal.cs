@@ -6,8 +6,8 @@ public class Portal : MonoBehaviour
     [SerializeField] private Transform CameraTransform;
 
     [Header("Distance")]
-    [SerializeField] float playerTeleportDistance = 5f;
-    [SerializeField] float cameraTeleportDistance = 5f;
+    [SerializeField] float playerTeleportDistance = 6.5f;
+    [SerializeField] float cameraTeleportDistance = 12.5f;
 
     public enum PortalDirection
     {
