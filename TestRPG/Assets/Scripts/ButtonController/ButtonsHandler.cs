@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ButtonsHandler : MonoBehaviour
@@ -9,6 +7,7 @@ public class ButtonsHandler : MonoBehaviour
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private PlayerInventory inventory;
     [SerializeField] private PlayerStats playerStats;
+    [SerializeField] private PlayerStamina playerStamina;
 
     private bool isRun => movement != Vector2.zero && Input.GetKey(KeyCode.LeftShift);
     private bool isStop => movement == Vector2.zero;
@@ -43,10 +42,10 @@ public class ButtonsHandler : MonoBehaviour
     {
         if (isRun)
         {
-            float stamina = playerStats.playerStamina();
+            float stamina = playerStamina.Stamina();
             if (stamina > 0)
             {
-                playerStats.playerStamina(-0.01f);
+                playerStamina.Stamina(-0.01f);
                 playerMovement.SwitchToRun();
             }
             else
@@ -61,7 +60,7 @@ public class ButtonsHandler : MonoBehaviour
         else
         {
             playerMovement.SwitchToStay();
-            playerStats.Rest();
+            playerStamina.Rest();
         }
         playerMovement.MovementSetter(GetMovingButtonsPressed());
     }

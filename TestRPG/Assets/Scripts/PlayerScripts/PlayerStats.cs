@@ -6,25 +6,20 @@ public class PlayerStats : MonoBehaviour
 {
     [Header("Scripts")]
     [SerializeField] private PlayerHpCanvas HpBarScript;
-    [SerializeField] private PlayerStaminaCanvas StaminaBarScript;
+    [SerializeField] private PlayerDamage playerDamage;
     [Header("Stats")]
     [SerializeField] private float max_hp = 15;
     [SerializeField] private float attack_speed = 5;
     [SerializeField] private float attack_damage = 1;
-    [SerializeField] private float damageTimeSec = 1f;
     [SerializeField] private float regenerationTimer = 10f;
     [SerializeField] private float hpRegeneration = 1f;
-    [SerializeField] private float fullStamina = 10f;
-    [SerializeField] private float staminaRegenetaionSpeed = 0.01f;
+    [SerializeField] private float damageTimeSec = 1f;
 
     private bool is_alive = true;
     private float current_hp;
     private Color DamageColor = Color.red;
 
-    private float stamina;
-    private bool isStaminaRegenerationNow;
-
-    private int damage;
+    private float damage;
     private Vector3 position;
 
     private Transform PlayerTransform;
@@ -34,92 +29,29 @@ public class PlayerStats : MonoBehaviour
     private void Start()
     {
         PlayerTransform = GetComponent<Transform>();
-        SpriteRenderer = GetComponent<SpriteRenderer>();
-        DefaultColor = SpriteRenderer.color;
-        stamina = fullStamina;
         current_hp = max_hp;
+        HpBarScript.StartFillBar(current_hp, max_hp);
     }
 
-    public void GetDamage(string damage_type)
+    public float Damaged(float damage)
     {
-        switch (damage_type)
+        current_hp -= damage;
+        if (current_hp <= 0)
         {
-            case ("light"):
-                damage = 1;
-                break;
-            case ("heavy"):
-                damage = 3;
-                break;
-            default:
-                Debug.Log("Unknow type of damage");
-                break;
+            is_alive = false;
+            current_hp = 0;
         }
-
-        HpBarScript.FillDamageBar(current_hp, max_hp);
-        this.current_hp -= damage;
-
-        Regeneration();
-
-        HpBarScript.FillBar(current_hp, max_hp);
-        DamageEffect();
-
-        if (this.current_hp <= 0)
+        else
         {
-            this.is_alive = false;
+            Regeneration();
         }
-    }
-
-    private IEnumerator DamageEffectCoroutine()
-    {
-        float time = 0;
-        float step = 1f / damageTimeSec;
-
-        while (time < damageTimeSec)
-        {
-            time += Time.deltaTime;
-            SpriteRenderer.color = Color.Lerp(DamageColor, DefaultColor, step * time);
-
-            yield return null;
-        }
-    }
-
-    private IEnumerator DamageHpBarCoroutine()
-    {
-        yield return new WaitForSeconds(damageTimeSec);
-        HpBarScript.FillDamageBar(0, max_hp);
-    }
-
-    public void DamageEffect()
-    {
-        StopCoroutine(nameof(DamageEffectCoroutine));
-        StopCoroutine(nameof(DamageHpBarCoroutine));
-        StartCoroutine(nameof(DamageEffectCoroutine));
-        StartCoroutine(nameof(DamageHpBarCoroutine));
+        return current_hp;
     }
 
     private void Regeneration()
     {
         StopCoroutine(nameof(HpRegenerationCoroutine));
         StartCoroutine(nameof(HpRegenerationCoroutine));
-    }
-
-    public void Rest()
-    {
-        if (stamina < fullStamina)
-        {
-            if (!isStaminaRegenerationNow)
-            {
-                StartCoroutine(StaminaRegeneration());
-            }
-        }
-    }
-
-    private IEnumerator StaminaRegeneration()
-    {
-        isStaminaRegenerationNow = true;
-        yield return new WaitForSeconds(staminaRegenetaionSpeed);
-        playerStamina(0.01f);
-        isStaminaRegenerationNow = false;
     }
 
     private IEnumerator HpRegenerationCoroutine()
@@ -152,31 +84,4 @@ public class PlayerStats : MonoBehaviour
     {
         return Tuple.Create(this.current_hp, this.max_hp);
     }
-
-    public float playerStamina()
-    {
-        return stamina;
-    }
-
-    public void playerStamina(float staminaChange)
-    {
-        stamina += staminaChange;
-        StaminaValidation();
-        StaminaBarScript.FillBar(stamina, fullStamina);
-    }
-
-    private void StaminaValidation()
-    {
-        if (stamina > fullStamina)
-        {
-            stamina = fullStamina;
-            Debug.Log("stamina > full stamina, stamina set to full");
-        }
-        else if (stamina < 0)
-        {
-            stamina = 0;
-            Debug.Log("stamina < 0, stamina set to 0");
-        }
-    }
-
 }

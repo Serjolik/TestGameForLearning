@@ -15,7 +15,8 @@ public class Beat : MonoBehaviour
     private bool in_player_range;
     private bool in_flashlight_range;
 
-    public PlayerStats player;
+    [HideInInspector] public PlayerStats player;
+    [HideInInspector] public PlayerDamage playerDamage;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -35,7 +36,7 @@ public class Beat : MonoBehaviour
 
     void Attack()
     {
-        player.GetDamage(type_of_damage);
+        playerDamage.GetDamage(type_of_damage);
         StartCoroutine(AttackDelay());
     }
 

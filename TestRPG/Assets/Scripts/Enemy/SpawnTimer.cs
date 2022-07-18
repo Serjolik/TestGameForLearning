@@ -6,6 +6,7 @@ using UnityEngine;
 public class SpawnTimer : MonoBehaviour
 {
     [SerializeField] private PlayerStats player;
+    [SerializeField] private PlayerDamage playerDamage;
     [SerializeField] private GameObject[] EnemyTypes;
     [SerializeField] private Transform[] SpawnPositions;
     [Header("Spawn rate")]
@@ -58,6 +59,7 @@ public class SpawnTimer : MonoBehaviour
             var BeatScript = Enemy.GetComponentInChildren<Beat>();
             AIScript.target = playerTransform;
             BeatScript.player = player;
+            BeatScript.playerDamage = playerDamage;
             Enemies.Add(Instantiate(Enemy, selected_spawn_position));
         }
         yield return new WaitForSeconds(spawnRate);

@@ -3,8 +3,6 @@ using UnityEngine.UI;
 
 public class BaseUI : MonoBehaviour
 {
-    [Header("PlayerStats")]
-    [SerializeField] protected PlayerStats player;
     [Header("Objects")]
     [SerializeField] private Image imageBar;
     [SerializeField] protected TMPro.TMP_Text textBox;

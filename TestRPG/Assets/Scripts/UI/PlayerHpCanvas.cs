@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 public class PlayerHpCanvas : BaseUI
 {
@@ -9,11 +8,10 @@ public class PlayerHpCanvas : BaseUI
 
     private float hpFill;
 
-    private void Start()
+    public void StartFillBar(float hp, float maxHp)
     {
         hpFill = 1f;
-        var (playerHp, playerMaxHp) = player.HpReturns();
-        TextBoxEdit(playerMaxHp, playerMaxHp);
+        TextBoxEdit(hp, maxHp);
     }
 
     public void FillDamageBar(float lastHp, float maxHp)
