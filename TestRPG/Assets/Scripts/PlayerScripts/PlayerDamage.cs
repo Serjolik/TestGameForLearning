@@ -5,14 +5,15 @@ using System;
 public class PlayerDamage : MonoBehaviour
 {
     [SerializeField] private float damageTimeSec = 1f;
-    [SerializeField] private PlayerStats playerStats;
     [SerializeField] private PlayerHpCanvas HpBarScript;
+    private PlayerStats playerStats;
     private SpriteRenderer playerSpriteRenderer;
     private Color DamageColor = Color.red;
     private Color DefaultColor;
 
     private void Start()
     {
+        playerStats = GetComponentInParent<PlayerStats>();
         playerSpriteRenderer = GetComponentInParent<SpriteRenderer>();
         DefaultColor = playerSpriteRenderer.color;
     }

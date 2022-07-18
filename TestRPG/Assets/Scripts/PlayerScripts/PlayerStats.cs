@@ -13,7 +13,6 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float attack_damage = 1;
     [SerializeField] private float regenerationTimer = 10f;
     [SerializeField] private float hpRegeneration = 1f;
-    [SerializeField] private float damageTimeSec = 1f;
 
     private bool is_alive = true;
     private float current_hp;

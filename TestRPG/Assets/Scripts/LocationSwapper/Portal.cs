@@ -2,25 +2,70 @@ using UnityEngine;
 public class Portal : MonoBehaviour
 {
     [Header("Transforms")]
-    [SerializeField] private Transform PlayerPosition;
-    [SerializeField] private Transform CameraPosition;
+    [SerializeField] private Transform PlayerTransform;
+    [SerializeField] private Transform CameraTransform;
 
-    [Header("Positions")]
-    [SerializeField] private Vector3 newPlayerPosition;
-    [SerializeField] private Vector3 newCameraPosition;
+    [Header("Distance")]
+    [SerializeField] float playerTeleportDistance = 5f;
+    [SerializeField] float cameraTeleportDistance = 5f;
 
-    /*
-     * fixed positions on start scene
-     * newPlayerPosition FR = new Vector3(0f, 9.5f, -1f); SR = (0f, 3f, -1f)
-     * newCameraPosition FR = new Vector3(0f, 13f, -10f); SR = (0f, 0f, -10f)
-     */
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    public enum PortalDirection
     {
-        if (collision.gameObject.tag == "Player")
+        up,
+        down,
+        left,
+        right
+    }
+    PortalDirection portalDirection;
+
+    private bool Move()
+    {
+        Vector3 newPlayerPosition = PlayerTransform.position;
+        Vector3 newCameraPosition = CameraTransform.position;
+        switch (portalDirection)
         {
-            PlayerPosition.position = newPlayerPosition;
-            CameraPosition.position = newCameraPosition;
+            case (PortalDirection.up):
+                newPlayerPosition.y += playerTeleportDistance;
+                newCameraPosition.y += cameraTeleportDistance;
+                break;
+            case (PortalDirection.down):
+                newPlayerPosition.y -= playerTeleportDistance;
+                newCameraPosition.y -= cameraTeleportDistance;
+                break;
+            case (PortalDirection.left):
+                newPlayerPosition.x -= playerTeleportDistance;
+                newCameraPosition.x -= cameraTeleportDistance;
+                break;
+            case (PortalDirection.right):
+                newPlayerPosition.x += playerTeleportDistance;
+                newCameraPosition.x += cameraTeleportDistance;
+                break;
+            default:
+                return false;
         }
+        PlayerTransform.position = newPlayerPosition;
+        CameraTransform.position = newCameraPosition;
+        return true;
+    }
+
+    public bool CorrectlyChecker(bool up, bool down, bool left, bool right)
+    {
+        if (up && down || up && left || up && right || down && left ||
+            down && right || left && right) return false;
+            return true;
+    }
+
+    public bool PortalActivated(bool up, bool down, bool left, bool right)
+    {
+        if (up) portalDirection = PortalDirection.up;
+        else if (down) portalDirection = PortalDirection.down;
+        else if (left) portalDirection = PortalDirection.left;
+        else if (right) portalDirection = PortalDirection.right;
+        else
+        {
+            Debug.Log("You dont set portal position");
+            return false;
+        }
+        return Move();
     }
 }

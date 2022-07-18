@@ -4979,7 +4979,6 @@ MonoBehaviour:
   attack_damage: 1
   regenerationTimer: 10
   hpRegeneration: 1
-  damageTimeSec: 1
 --- !u!1 &276244469
 GameObject:
   m_ObjectHideFlags: 0
@@ -6193,7 +6192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 563390994}
   - component: {fileID: 563390996}
-  - component: {fileID: 563390995}
+  - component: {fileID: 563390997}
   m_Layer: 0
   m_Name: SecondPortal
   m_TagString: Untagged
@@ -6216,22 +6215,6 @@ Transform:
   m_Father: {fileID: 597776250}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &563390995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 563390993}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5cc0c5c9472a5844a8fd02f95e66f2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerPosition: {fileID: 244555305}
-  CameraPosition: {fileID: 519420032}
-  newPlayerPosition: {x: 0, y: 3, z: -1}
-  newCameraPosition: {x: 0, y: 0, z: -10}
 --- !u!61 &563390996
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6258,6 +6241,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.9299686, y: 0.6965308}
   m_EdgeRadius: 0
+--- !u!114 &563390997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563390993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f40e1a7edcad5646ba5b850357e6181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  up: 0
+  down: 1
+  left: 0
+  right: 0
 --- !u!1 &591535909
 GameObject:
   m_ObjectHideFlags: 0
@@ -6343,6 +6342,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 597776250}
+  - component: {fileID: 597776251}
   m_Layer: 0
   m_Name: Portals
   m_TagString: Untagged
@@ -6367,6 +6367,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &597776251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597776249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5cc0c5c9472a5844a8fd02f95e66f2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerTransform: {fileID: 244555305}
+  CameraTransform: {fileID: 519420032}
+  playerTeleportDistance: 6.5
+  cameraTeleportDistance: 12.5
 --- !u!1 &600710830
 GameObject:
   m_ObjectHideFlags: 0
@@ -7901,7 +7917,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTimeSec: 1
-  playerStats: {fileID: 244555309}
   HpBarScript: {fileID: 80378798}
 --- !u!4 &972864601
 Transform:
@@ -11166,13 +11181,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1666188560}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5cc0c5c9472a5844a8fd02f95e66f2d, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f40e1a7edcad5646ba5b850357e6181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerPosition: {fileID: 244555305}
-  CameraPosition: {fileID: 519420032}
-  newPlayerPosition: {x: 0, y: 9.5, z: -1}
-  newCameraPosition: {x: 0, y: 13, z: -10}
+  up: 1
+  down: 0
+  left: 0
+  right: 0
 --- !u!1 &1729013744
 GameObject:
   m_ObjectHideFlags: 0
