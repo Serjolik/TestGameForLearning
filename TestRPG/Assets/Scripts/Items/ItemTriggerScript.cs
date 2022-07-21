@@ -3,8 +3,6 @@ using UnityEngine;
 public class ItemTriggerScript : MonoBehaviour
 {
     [SerializeField] private PlayerInventory playerInventory;
-
-    [SerializeField] private string itemName;
     [SerializeField] private string itemAbility;
 
 
@@ -12,7 +10,7 @@ public class ItemTriggerScript : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            if (playerInventory.SlotAdded(itemName, itemAbility, GetComponent<SpriteRenderer>().sprite))
+            if (playerInventory.SlotAdded(gameObject.name, itemAbility, GetComponent<SpriteRenderer>().sprite))
             {
                 Destroy(gameObject);
             }

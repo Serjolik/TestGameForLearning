@@ -64,6 +64,11 @@ public class PlayerInventory : MonoBehaviour
         slotsDict.Remove(itemName);
     }
 
+    public bool ItemSearch(string itemName)
+    {
+        return slotsDict.ContainsKey(itemName);
+    }
+
     public void Draw(bool active)
     {
         Inventory.SetActive(active);
