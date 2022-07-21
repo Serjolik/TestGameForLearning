@@ -45,30 +45,27 @@ public class ButtonsHandler : MonoBehaviour
             float stamina = playerStamina.Stamina();
             if (stamina > 0)
             {
-                playerStamina.Stamina(-0.01f);
-                playerMovement.SwitchToRun();
+                Running();
             }
             else
             {
-                playerMovement.SwitchToWalk();
+                Walking();
             }
         }
         else if (!isStop)
         {
-            playerMovement.SwitchToWalk();
+            Walking();
         }
         else
         {
-            playerMovement.SwitchToStay();
-            playerStamina.Rest();
+            Staying();
         }
         playerMovement.MovementSetter(GetMovingButtonsPressed());
     }
 
     private void StopMoving()
     {
-        playerMovement.SwitchToStay();
-        playerStamina.Rest();
+        Staying();
         playerMovement.MovementSetter(Vector2.zero);
     }
 
@@ -96,6 +93,23 @@ public class ButtonsHandler : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    private void Running()
+    {
+        playerStamina.Stamina(-0.01f);
+        playerMovement.SwitchToRun();
+    }
+
+    private void Walking()
+    {
+        playerMovement.SwitchToWalk();
+        playerStamina.WalkingRest();
+    }
+    private void Staying()
+    {
+        playerMovement.SwitchToStay();
+        playerStamina.Rest();
     }
 
 }

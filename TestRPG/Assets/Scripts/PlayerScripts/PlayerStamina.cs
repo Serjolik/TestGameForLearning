@@ -39,11 +39,11 @@ public class PlayerStamina : MonoBehaviour
         StaminaBarScript.FillBar(stamina, fullStamina);
     }
 
-    private IEnumerator StaminaRegeneration()
+    private IEnumerator StaminaRegeneration(float staminaChange)
     {
         isStaminaRegenerationNow = true;
         yield return new WaitForSeconds(staminaRegenetaionSpeed);
-        Stamina(0.01f);
+        Stamina(staminaChange);
         isStaminaRegenerationNow = false;
     }
     public void Rest()
@@ -52,7 +52,18 @@ public class PlayerStamina : MonoBehaviour
         {
             if (!isStaminaRegenerationNow)
             {
-                StartCoroutine(StaminaRegeneration());
+                StartCoroutine(StaminaRegeneration(staminaRegenetaionSpeed));
+            }
+        }
+    }
+
+    public void WalkingRest()
+    {
+        if (stamina < fullStamina)
+        {
+            if (!isStaminaRegenerationNow)
+            {
+                StartCoroutine(StaminaRegeneration(staminaRegenetaionSpeed / 2));
             }
         }
     }
