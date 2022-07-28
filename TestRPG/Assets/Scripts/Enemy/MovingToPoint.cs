@@ -3,14 +3,13 @@ using UnityEngine;
 public class MovingToPoint : ScriptableObject
 {
     private static MovingToPoint instance;
-    private MovingToPoint() { }
     public static MovingToPoint Instance
     {
         get
         {
             if (instance == null)
             {
-                instance = new MovingToPoint();
+                instance = CreateInstance<MovingToPoint>();
             }
             return instance;
         }
