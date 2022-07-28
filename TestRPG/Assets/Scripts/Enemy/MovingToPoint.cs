@@ -1,8 +1,27 @@
 using UnityEngine;
 
-public class MovingToPoint
+public class MovingToPoint : ScriptableObject
 {
-    [SerializeField] private float speed = 100f;
+    private static MovingToPoint instance;
+    private MovingToPoint() { }
+    public static MovingToPoint Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new MovingToPoint();
+            }
+            return instance;
+        }
+    }
+    private float speed = 1f;    
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     public Vector2 Movement(Vector2 ourPosition, Vector2 targetPosition)
     {
         return Vector2.MoveTowards(ourPosition, targetPosition, speed * Time.deltaTime);

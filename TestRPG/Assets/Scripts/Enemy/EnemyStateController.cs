@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class EnemyStateController : MonoBehaviour
 {
-    [SerializeField] private MovingToPoint movingToPoint;
     private Vector2 movementVector;
     private enum State
     {
@@ -47,17 +46,29 @@ public class EnemyStateController : MonoBehaviour
         return movementVector;
     }
 
+    public bool Reached(Vector2 ourPosition, Vector2 targetPosition)
+    {
+        if (MovingToPoint.Instance.ReachedThePoint(ourPosition, targetPosition))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     private void Search(Vector2 ourPosition, Vector2 pointPosition)
     {
-        movementVector = movingToPoint.Movement(ourPosition, pointPosition);
+        movementVector = MovingToPoint.Instance.Movement(ourPosition, pointPosition);
     }
     private void Hunt(Vector2 ourPosition, Vector2 targetPosition)
     {
-        movementVector = movingToPoint.Movement(ourPosition, targetPosition);
+        movementVector = MovingToPoint.Instance.Movement(ourPosition, targetPosition);
     }
     private void ToAttack()
     {
-        movementVector = new Vector2(0, 0);
+        return;
     }
 
 }
