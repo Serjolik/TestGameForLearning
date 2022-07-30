@@ -17,7 +17,6 @@ public class PlayerInventory : MonoBehaviour
     {
         images = Inventory.GetComponentsInChildren<Image>();
         inventorySlotsCount = images.Length - 1;
-        Debug.Log(inventorySlotsCount);
         EmptySlotSprite = images[1].sprite;
         slotsDict = new Dictionary<string, string> { };
     }
@@ -54,7 +53,7 @@ public class PlayerInventory : MonoBehaviour
         int slotIndex = 0;
         foreach (string slotName in slotsDict.Keys)
         {
-            index++;
+            slotIndex++;
             if (slotName == itemName)
             {
                 images[slotIndex].sprite = EmptySlotSprite;
