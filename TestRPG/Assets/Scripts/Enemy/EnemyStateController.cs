@@ -15,12 +15,10 @@ public class EnemyStateController : MonoBehaviour
     {
         state = State.search;
     }
-
     public void Find()
     {
         state = State.hunt;
     }
-
     public void InRange()
     {
         state = State.attack;
@@ -37,7 +35,7 @@ public class EnemyStateController : MonoBehaviour
                 Hunt(ourPosition, targetPosition);
                 break;
             case State.attack:
-                ToAttack();
+                ToAttack(ourPosition);
                 break;
             default:
                 Debug.Log("Unknown enemy state");
@@ -66,9 +64,9 @@ public class EnemyStateController : MonoBehaviour
     {
         movementVector = MovingToPoint.Instance.Movement(ourPosition, targetPosition);
     }
-    private void ToAttack()
+    private void ToAttack(Vector2 ourPosition)
     {
-        return;
+        movementVector = ourPosition;
     }
 
 }

@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 48
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -1761,11 +1761,10 @@ TextureImporter:
       Outside_43: -1540860565
       Outside_61: 188105715
       Outside_77: 1460286705
-      Outside_69: -523121315
+      Outside_76: -1797991418
       Outside_27: -227110465
       Outside_30: 165981114
       Outside_72: 287333736
-      Outside_76: -1797991418
       Outside_46: -208239370
       Outside_74: -489810251
       Outside_39: 2065218976
@@ -1826,10 +1825,11 @@ TextureImporter:
       Outside_23: 1361223245
       Outside_47: -213550769
       Outside_32: 721052575
+      Outside_44: 877442283
+      Outside_69: -523121315
+      Outside_68: 96210004
       Outside_31: -75117167
       Outside_36: 322650005
-      Outside_44: 877442283
-      Outside_68: 96210004
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -14,6 +14,7 @@ public class MovingToPoint : ScriptableObject
             return instance;
         }
     }
+
     private float speed = 1f;    
 
     private void Awake()

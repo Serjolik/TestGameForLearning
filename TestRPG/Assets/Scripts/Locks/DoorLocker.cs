@@ -1,23 +1,13 @@
 using UnityEngine;
 
-public class DoorLocker : MonoBehaviour
+public class DoorLocker : Lock
 {
-    [SerializeField] protected PlayerInventory playerInventory;
-    [SerializeField] protected GameObject requiredKey;
-    protected string requiredKeyName;
-
-    private void Awake()
-    {
-        requiredKeyName = requiredKey.name;
-    }
-
-    protected void Unlocked()
+    protected override void Unlocked()
     {
         playerInventory.SlotDeleted(requiredKeyName);
         gameObject.SetActive(false);
     }
-
-    protected void Locked()
+    protected override void Locked()
     {
         Debug.Log("This door is locked, you need key");
     }

@@ -5,7 +5,6 @@ using UnityEngine;
 public class GhostLogic : MonoBehaviour
 {
     [Header("Classes")]
-    [SerializeField] private EnemyStateController enemyStateController;
     [SerializeField] private PlayerDamage playerDamage;
     [Header("Variables")]
     [SerializeField] private float distanceToAttack = 1f;
@@ -18,6 +17,7 @@ public class GhostLogic : MonoBehaviour
     [Header("MovementPathTransforms")]
     [SerializeField] private Transform[] MovementPaths;
 
+    private EnemyStateController enemyStateController;
     private List<Transform> Paths = new List<Transform>();
     private int numberOfPaths = 0;
     private int currentPath = 0;
@@ -31,6 +31,7 @@ public class GhostLogic : MonoBehaviour
 
     private void Awake()
     {
+        enemyStateController = GetComponent<EnemyStateController>();
         foreach (Transform transforms in MovementPaths)
         {
             numberOfPaths++;
@@ -57,15 +58,15 @@ public class GhostLogic : MonoBehaviour
 
     private void Update()
     {
-        Vector2 ourPositionEdited = new Vector2(ghostTransform.position.x, ghostTransform.position.y);
-        Vector2 playerPositionEdited = new Vector2(playerTransform.position.x, playerTransform.position.y);
-        Vector2 pointPositionEdited = new Vector2(Paths[currentPath].position.x, Paths[currentPath].position.y);
+        Vector2 ourPositionEdited = VectorConvert(ghostTransform.position);
+        Vector2 playerPositionEdited = VectorConvert(playerTransform.position);
+        Vector2 pointPositionEdited = VectorConvert(Paths[currentPath].position);
         distanceToPlayer = Vector2.Distance(ourPositionEdited, playerPositionEdited);
 
         if (!inVisionRange)
         {
             enemyStateController.LostTarget();
-            if (haunted)
+            if (haunted) // return to Search mode
             {
                 haunted = false;
                 FindPath(ourPositionEdited, Vector2.Distance(ourPositionEdited, pointPositionEdited));
@@ -76,7 +77,7 @@ public class GhostLogic : MonoBehaviour
                 PathChange();
             }
         }
-        else // if player in vision range
+        else // if ghost see player
         {
             haunted = true;
             if (!inAttackRange)
@@ -115,6 +116,10 @@ public class GhostLogic : MonoBehaviour
         can_attack = true;
     }
 
+    private Vector2 VectorConvert(Vector3 myVector)
+    {
+        return new Vector2(myVector.x, myVector.y);
+    }
 
 
     private void FindPath(Vector2 ourPosition, float distanceToLastPoint)
