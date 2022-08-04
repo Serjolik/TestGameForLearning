@@ -7,6 +7,9 @@ public class PortalSettings : MonoBehaviour
     [SerializeField] private bool down;
     [SerializeField] private bool left;
     [SerializeField] private bool right;
+    [SerializeField] private bool isTransition;
+    [Header("Set distance")]
+    [SerializeField] private int distance;
 
     private Portal portal;
 
@@ -19,9 +22,27 @@ public class PortalSettings : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            if (portal.CorrectlyChecker(up, down, left, right))
+            if (!isTransition)
             {
-                if (portal.PortalActivated(up, down, left, right))
+                if (portal.CorrectlyChecker(up, down, left, right))
+                {
+                    if (portal.PortalActivated(up, down, left, right, distance))
+                    {
+                        Debug.Log("Teleport works");
+                    }
+                    else
+                    {
+                        Debug.Log("Teleport failed");
+                    }
+                }
+                else
+                {
+                    Debug.Log("More than ore direction selected, teleport deactivated");
+                }
+            }
+            else // if this is a transition to another floor
+            {
+                if (portal.PortalActivated(up, down, distance))
                 {
                     Debug.Log("Teleport works");
                 }
@@ -29,10 +50,6 @@ public class PortalSettings : MonoBehaviour
                 {
                     Debug.Log("Teleport failed");
                 }
-            }
-            else
-            {
-                Debug.Log("More than ore direction selected, teleport deactivated");
             }
         }
     }

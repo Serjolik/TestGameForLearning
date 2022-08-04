@@ -6,8 +6,8 @@ public class Portal : MonoBehaviour
     [SerializeField] private Transform CameraTransform;
 
     [Header("Distance")]
-    [SerializeField] float playerTeleportDistance = 6.5f;
-    [SerializeField] float cameraTeleportDistance = 12.5f;
+    [SerializeField] float playerCellRange = 1.7f;
+    [SerializeField] float cameraCellRange = 2.8f;
 
     public enum PortalDirection
     {
@@ -18,8 +18,10 @@ public class Portal : MonoBehaviour
     }
     PortalDirection portalDirection;
 
-    private bool Move()
+    private bool Move(int distance)
     {
+        float playerTeleportDistance = playerCellRange * distance + 0.5f;
+        float cameraTeleportDistance = cameraCellRange * distance + 0.5f;
         Vector3 newPlayerPosition = PlayerTransform.position;
         Vector3 newCameraPosition = CameraTransform.position;
         switch (portalDirection)
@@ -55,7 +57,7 @@ public class Portal : MonoBehaviour
             return true;
     }
 
-    public bool PortalActivated(bool up, bool down, bool left, bool right)
+    public bool PortalActivated(bool up, bool down, bool left, bool right, int distance)
     {
         if (up) portalDirection = PortalDirection.up;
         else if (down) portalDirection = PortalDirection.down;
@@ -66,6 +68,20 @@ public class Portal : MonoBehaviour
             Debug.Log("You dont set portal position");
             return false;
         }
-        return Move();
+        return Move(distance);
     }
+
+    public bool PortalActivated(bool up, bool down, int len)
+    {
+        if (up) portalDirection = PortalDirection.up;
+        else if (down) portalDirection = PortalDirection.down;
+        else
+        {
+            Debug.Log("You dont set portal position");
+            return false;
+        }
+        FloorSwapper.Instance.transition(len);
+        return true;
+    }
+
 }
