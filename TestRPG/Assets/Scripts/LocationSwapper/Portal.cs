@@ -1,6 +1,8 @@
 using UnityEngine;
 public class Portal : MonoBehaviour
 {
+    [SerializeField] private FloorSwapper floorSwapper;
+
     [Header("Transforms")]
     [SerializeField] private Transform PlayerTransform;
     [SerializeField] private Transform CameraTransform;
@@ -50,11 +52,21 @@ public class Portal : MonoBehaviour
         return true;
     }
 
-    public bool CorrectlyChecker(bool up, bool down, bool left, bool right)
+    public bool CorrectlyChecker(bool up, bool down, bool left, bool right, bool isTransition)
     {
-        if (up && down || up && left || up && right || down && left ||
-            down && right || left && right) return false;
+        if (!isTransition)
+        {
+            if (up && down || up && left || up && right ||
+                down && left || down && right || left && right)
+                return false;
             return true;
+        }
+        else
+        {
+            if (up && down)
+                return false;
+            return true;
+        }
     }
 
     public bool PortalActivated(bool up, bool down, bool left, bool right, int distance)
@@ -71,17 +83,12 @@ public class Portal : MonoBehaviour
         return Move(distance);
     }
 
-    public bool PortalActivated(bool up, bool down, int len)
+    public bool PortalActivated(bool up, bool down)
     {
-        if (up) portalDirection = PortalDirection.up;
-        else if (down) portalDirection = PortalDirection.down;
-        else
-        {
-            Debug.Log("You dont set portal position");
-            return false;
-        }
-        FloorSwapper.Instance.transition(len);
-        return true;
+        int len = 0;
+        if (up) len = 1;
+        else if (down) len = -1;
+        return floorSwapper.transition(len);
     }
 
 }

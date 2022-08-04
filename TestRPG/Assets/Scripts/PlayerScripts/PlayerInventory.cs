@@ -9,16 +9,15 @@ public class PlayerInventory : MonoBehaviour
     private int inventorySlotsCount;
     private Sprite EmptySlotSprite;
 
-    private Dictionary<string, string> slotsDict;
+    private Dictionary<string, Sprite> slotsDict;
     private Image[] images;
-    private int index = 0;
 
     private void Awake()
     {
         images = Inventory.GetComponentsInChildren<Image>();
         inventorySlotsCount = images.Length - 1;
         EmptySlotSprite = images[1].sprite;
-        slotsDict = new Dictionary<string, string> { };
+        slotsDict = new Dictionary<string, Sprite> { };
     }
 
     private bool inventoryIsFull()
@@ -33,34 +32,39 @@ public class PlayerInventory : MonoBehaviour
             return true;
         }
     }
-    private void InventoryPic(Sprite sprite, int index)
+
+    private void InventoryCellDraw()
     {
-        images[index].sprite = sprite;
+        int index = 0;
+        for (int i = 1; i < images.Length; i++)
+        {
+            images[i].sprite = EmptySlotSprite;
+        }
+        foreach (Sprite sprite in slotsDict.Values)
+        {
+            index++;
+            images[index].sprite = sprite;
+        }
     }
-    public bool SlotAdded(string itemName, string itemAbility, Sprite sprite)
+
+    public bool SlotAdded(string itemName, Sprite sprite)
     {
         if (inventoryIsFull())
         {
             return false;
         }
-        InventoryPic(sprite, ++index);
-        slotsDict.Add(itemName, itemAbility);
+        slotsDict.Add(itemName, sprite);
+        InventoryCellDraw();
         return true;
     }
 
     public void SlotDeleted(string itemName)
     {
-        int slotIndex = 0;
-        foreach (string slotName in slotsDict.Keys)
-        {
-            slotIndex++;
-            if (slotName == itemName)
-            {
-                images[slotIndex].sprite = EmptySlotSprite;
-                break;
-            }
-        }
-        slotsDict.Remove(itemName);
+        if (slotsDict.ContainsKey(itemName))
+            slotsDict.Remove(itemName);
+        else
+            Debug.Log("Not contains this item");
+        InventoryCellDraw();
     }
 
     public bool ItemSearch(string itemName)

@@ -22,9 +22,9 @@ public class PortalSettings : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            if (!isTransition)
+            if (portal.CorrectlyChecker(up, down, left, right, isTransition))
             {
-                if (portal.CorrectlyChecker(up, down, left, right))
+                if (!isTransition)
                 {
                     if (portal.PortalActivated(up, down, left, right, distance))
                     {
@@ -37,19 +37,12 @@ public class PortalSettings : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("More than ore direction selected, teleport deactivated");
+                    portal.PortalActivated(up, down);
                 }
             }
-            else // if this is a transition to another floor
+            else
             {
-                if (portal.PortalActivated(up, down, distance))
-                {
-                    Debug.Log("Teleport works");
-                }
-                else
-                {
-                    Debug.Log("Teleport failed");
-                }
+                Debug.Log("More than ore direction selected, teleport deactivated");
             }
         }
     }

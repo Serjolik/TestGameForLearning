@@ -1,23 +1,10 @@
 using UnityEngine;
 
-public class FloorSwapper : ScriptableObject
+public class FloorSwapper : MonoBehaviour
 {
     [SerializeField] private GameObject[] floor;
     private int floorIndex = 0;
     private int floorCount = 0;
-
-    private static FloorSwapper instance;
-    public static FloorSwapper Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = CreateInstance<FloorSwapper>();
-            }
-            return instance;
-        }
-    }
 
     private void Awake()
     {
