@@ -1,8 +1,12 @@
+using Cinemachine;
 using UnityEngine;
 
 public class FloorSwapper : MonoBehaviour
 {
     [SerializeField] private GameObject[] floor;
+    [SerializeField] private GameObject Player;
+    [SerializeField] private CinemachineVirtualCamera vCam1;
+    [SerializeField] private float distanceToNextScene_x = 100f;
     private int floorIndex = 0;
     private int floorCount = 0;
 
@@ -11,25 +15,49 @@ public class FloorSwapper : MonoBehaviour
         floorCount = floor.Length;
     }
 
-    private bool CanSwap(int len)
+    private bool CanSwap(int floorNumber)
     {
-        return ((floorIndex + len) > 0) && ((floorIndex + len) < floorCount);
+        return (floorNumber > 0) && (floorNumber < floorCount);
     }
 
-    public bool transition(int len)
+    public bool Transition(int len)
     {
-        if (CanSwap(len))
+        if (CanSwap(floorIndex + len))
         {
-            floor[floorIndex].SetActive(false);
+            Move(len);
             floorIndex += len;
-            floor[floorIndex].SetActive(true);
             return true;
         }
         else
         {
-            Debug.Log("You cannot swap floor, check floors");
-            return false;
+            return ErrorMessage();
         }
+    }
+
+    public bool TransitionToCurrentFloor(int floorNumber)
+    {
+        if (CanSwap(floorNumber))
+        {
+            Move(floorNumber - floorIndex);
+            floorIndex = floorNumber;
+            return true;
+        }
+        else
+        {
+            return ErrorMessage();
+        }
+    }
+
+    private void Move(float value)
+    {
+        Player.transform.position += new Vector3(distanceToNextScene_x * value, 0, 0);
+        vCam1.OnTargetObjectWarped(Player.transform, new Vector3(distanceToNextScene_x * value, 0, 0));
+    }
+
+    private bool ErrorMessage()
+    {
+        Debug.Log("You cannot swap floor to this value, check floors and numbers");
+        return false;
     }
 
 }
