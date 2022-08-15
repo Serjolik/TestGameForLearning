@@ -2,24 +2,20 @@ using UnityEngine;
 
 public class ButtonController : ButtonsHandler
 {
+    private bool canAct => !(InDialog() || InCutscene() || menuActive);
     void Update()
     {
-
-        if (InDialog())
-        {
-            return;
-        }
-
-        if (!menuActive)
+        if (canAct)
         {
             Movement();
             Inventory();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (pauseButton)
         {
             Pause();
         }
+
     }
     private void Pause()
     {

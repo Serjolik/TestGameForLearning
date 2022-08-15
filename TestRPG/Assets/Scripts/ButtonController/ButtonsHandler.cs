@@ -11,6 +11,7 @@ public class ButtonsHandler : MonoBehaviour
 
     private bool isRun => movement != Vector2.zero && Input.GetKey(KeyCode.LeftShift);
     private bool isStop => movement == Vector2.zero;
+    protected bool pauseButton => Input.GetKeyDown(KeyCode.Escape);
 
     protected Vector2 movement;
     protected bool menuActive = false;
@@ -85,13 +86,20 @@ public class ButtonsHandler : MonoBehaviour
     {
         if (DialogeManager.GetInstance().dialogeIsPlaying)
         {
+            // When dialog playing we need to set false inventory drawing and stop moving
+            inventory.Draw(false);
             StopMoving();
-            if (Input.anyKeyDown)
+            if (Input.anyKeyDown != pauseButton)
             {
                 DialogeManager.GetInstance().continueStory();
             }
             return true;
         }
+        return false;
+    }
+
+    protected bool InCutscene()
+    {
         return false;
     }
 
