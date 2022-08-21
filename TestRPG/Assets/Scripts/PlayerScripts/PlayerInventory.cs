@@ -97,11 +97,13 @@ public class PlayerInventory : MonoBehaviour
     }
     private void RemoveDuplicate(string itemName)
     {
+        string currentName = string.Empty;
         for (int i = 1; i < 10; i++)
         {
-            if (ItemSearch(itemName + " (" + i + ")"))
+            currentName = itemName + " (" + i + ")";
+            if (ItemSearch(currentName))
             {
-                slotsDict.Remove(itemName + " (" + i + ")");
+                slotsDict.Remove(currentName);
                 break;
             }
         }
