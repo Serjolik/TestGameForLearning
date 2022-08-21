@@ -7,6 +7,7 @@ public class FloorSwapper : MonoBehaviour
     [SerializeField] private GameObject Player;
     [SerializeField] private CinemachineVirtualCamera vCam1;
     [SerializeField] private float distanceToNextScene_x = 100f;
+    [SerializeField] private float stairsDistance_y = 6f;
     private int floorIndex = 0;
     private int floorCount = 0;
 
@@ -17,7 +18,7 @@ public class FloorSwapper : MonoBehaviour
 
     private bool CanSwap(int floorNumber)
     {
-        return (floorNumber > 0) && (floorNumber < floorCount);
+        return (floorNumber >= 0) && (floorNumber < floorCount);
     }
 
     public bool Transition(int len)
@@ -50,7 +51,7 @@ public class FloorSwapper : MonoBehaviour
 
     private void Move(float value)
     {
-        Player.transform.position += new Vector3(distanceToNextScene_x * value, 0, 0);
+        Player.transform.position += new Vector3(distanceToNextScene_x * value, -stairsDistance_y, 0);
         vCam1.OnTargetObjectWarped(Player.transform, new Vector3(distanceToNextScene_x * value, 0, 0));
     }
 

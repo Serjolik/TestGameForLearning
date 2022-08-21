@@ -58,18 +58,53 @@ public class PlayerInventory : MonoBehaviour
         return true;
     }
 
-    public void SlotDeleted(string itemName)
+    public bool SlotDeleted(string itemName)
     {
-        if (slotsDict.ContainsKey(itemName))
+        if (ItemSearch(itemName))
+        {
             slotsDict.Remove(itemName);
+            InventoryCellDraw();
+            return true;
+        }
+        else if (SearchDuplicate(itemName))
+        {
+            RemoveDuplicate(itemName);
+            InventoryCellDraw();
+            return true;
+        }
         else
+        {
             Debug.Log("Not contains this item");
-        InventoryCellDraw();
+            return false;
+        }
     }
 
-    public bool ItemSearch(string itemName)
+    private bool ItemSearch(string itemName)
     {
         return slotsDict.ContainsKey(itemName);
+    }
+
+    private bool SearchDuplicate(string itemName)
+    {
+        for (int i = 1; i < 10; i++)
+        {
+            if (ItemSearch(itemName + " (" + i + ")"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    private void RemoveDuplicate(string itemName)
+    {
+        for (int i = 1; i < 10; i++)
+        {
+            if (ItemSearch(itemName + " (" + i + ")"))
+            {
+                slotsDict.Remove(itemName + " (" + i + ")");
+                break;
+            }
+        }
     }
 
     public void Draw(bool active)

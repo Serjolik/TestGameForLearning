@@ -20,7 +20,7 @@ public class Lock : MonoBehaviour
 
     private void Checker()
     {
-        if (playerInventory.ItemSearch(requiredKeyName))
+        if (playerInventory.SlotDeleted(requiredKeyName))
         {
             Unlocked();
         }
