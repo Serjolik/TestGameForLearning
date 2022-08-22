@@ -1,4 +1,5 @@
 using Cinemachine;
+using System.Collections;
 using UnityEngine;
 
 public class FloorSwapper : MonoBehaviour
@@ -8,6 +9,10 @@ public class FloorSwapper : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera vCam1;
     [SerializeField] private float distanceToNextScene_x = 100f;
     [SerializeField] private float stairsDistance_y = 6f;
+    [Header("Black screen animation script")]
+    [SerializeField] private BlackScreenAnim blackScreenAnim;
+    [Header("Black screen pause time")]
+    [SerializeField] private float animationPauseTime = 1f;
     private int floorIndex = 0;
     private int floorCount = 0;
 
@@ -25,7 +30,7 @@ public class FloorSwapper : MonoBehaviour
     {
         if (CanSwap(floorIndex + len))
         {
-            Move(len);
+            StartCoroutine(MoveDelay(len));
             floorIndex += len;
             return true;
         }
@@ -39,7 +44,7 @@ public class FloorSwapper : MonoBehaviour
     {
         if (CanSwap(floorNumber))
         {
-            Move(floorNumber - floorIndex);
+            StartCoroutine(MoveDelay(floorNumber - floorIndex));
             floorIndex = floorNumber;
             return true;
         }
@@ -59,6 +64,13 @@ public class FloorSwapper : MonoBehaviour
     {
         Debug.Log("You cannot swap floor to this value, check floors and numbers");
         return false;
+    }
+
+    private IEnumerator MoveDelay(float value)
+    {
+        blackScreenAnim.PlayAnimation(animationPauseTime);
+        yield return new WaitForSeconds(blackScreenAnim.giveAnimationTime());
+        Move(value);
     }
 
 }

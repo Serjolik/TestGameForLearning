@@ -19,20 +19,18 @@ public class BlackScreenAnim : MonoBehaviour
         transparentColor.a = 0f;
     }
 
-    private void Update()
+    public void PlayAnimation(float animationPauseTime)
     {
-        Test();
+        StartCoroutine(anim(animationPauseTime));
+        Debug.Log("Black screen");
     }
 
-    public void Test()
+    public float giveAnimationTime()
     {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            StartCoroutine(anim());
-        }
+        return animationTime;
     }
 
-    private IEnumerator anim()
+    private IEnumerator anim(float animationPauseTime)
     {
         float time = 0;
         float step = 1f / animationTime;
@@ -43,7 +41,7 @@ public class BlackScreenAnim : MonoBehaviour
             ObjectImage.color = Color.Lerp(transparentColor, fullColor, step * time);
             yield return null;
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(animationPauseTime);
         time = 0;
         while (time < animationTime)
         {
