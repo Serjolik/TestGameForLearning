@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class FloorSwapper : MonoBehaviour
 {
+    [Header("Floors object in scene")]
     [SerializeField] private GameObject[] floor;
+    [Header("Moving objects (player and camera)")]
     [SerializeField] private GameObject Player;
     [SerializeField] private CinemachineVirtualCamera vCam1;
+    [Header("Variables")]
     [SerializeField] private float distanceToNextScene_x = 100f;
-    [SerializeField] private float stairsDistance_y = 6f;
+    [SerializeField] private float stairsDistance_y = 5f;
     [Header("Black screen animation script")]
     [SerializeField] private BlackScreenAnim blackScreenAnim;
     [Header("Black screen pause time")]

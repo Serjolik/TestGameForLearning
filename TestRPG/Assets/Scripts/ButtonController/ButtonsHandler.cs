@@ -4,10 +4,12 @@ public class ButtonsHandler : MonoBehaviour
 {
     // Does not include buttons on triggers
     [SerializeField] GameObject Menu;
+    [Header("Scripts")]
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private PlayerInventory inventory;
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private PlayerStamina playerStamina;
+    [SerializeField] private BlackScreenAnim blackScreenAnim;
 
     private bool isRun => movement != Vector2.zero && Input.GetKey(KeyCode.LeftShift);
     private bool isStop => movement == Vector2.zero;
@@ -100,6 +102,8 @@ public class ButtonsHandler : MonoBehaviour
 
     protected bool InCutscene()
     {
+        if (blackScreenAnim.giveInCutsceneState())
+            return true;
         return false;
     }
 
