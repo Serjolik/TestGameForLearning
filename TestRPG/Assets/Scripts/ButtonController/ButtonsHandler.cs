@@ -10,6 +10,7 @@ public class ButtonsHandler : MonoBehaviour
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private PlayerStamina playerStamina;
     [SerializeField] private BlackScreenAnim blackScreenAnim;
+    [SerializeField] private NoteScript noteScript;
 
     private bool isRun => movement != Vector2.zero && Input.GetKey(KeyCode.LeftShift);
     private bool isStop => movement == Vector2.zero;
@@ -84,17 +85,25 @@ public class ButtonsHandler : MonoBehaviour
         }
     }
 
-    protected bool InDialog()
+    protected bool InReading()
     {
         if (DialogeManager.GetInstance().dialogeIsPlaying)
         {
             // When dialog playing we need to set false inventory drawing and stop moving
             inventory.Draw(false);
             StopMoving();
+            // Continue story
             if (Input.anyKeyDown != pauseButton)
             {
                 DialogeManager.GetInstance().continueStory();
             }
+            return true;
+        }
+        else if (noteScript.isReading())
+        {
+            // When we reading need to set false inventory drawing and stop moving
+            inventory.Draw(false);
+            StopMoving();
             return true;
         }
         return false;
