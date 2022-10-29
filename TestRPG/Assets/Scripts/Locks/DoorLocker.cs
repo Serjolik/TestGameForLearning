@@ -4,7 +4,7 @@ public class DoorLocker : Lock
 {
     protected override void Unlocked()
     {
-        playerInventory.SlotDeleted(requiredKeyName);
+        Debug.Log("Door Open");
         gameObject.SetActive(false);
     }
     protected override void Locked()
