@@ -1,18 +1,14 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class DrawingTrigger : MonoBehaviour
+public class DrawingTrigger : ObjectController
 {
-    private Vector3 objectPosition;
-    void Awake()
-    {
-        objectPosition = this.transform.position;
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            objectPosition.z -= 2;
+            position.z -= 2;
             positionTransform();
         }
     }
@@ -21,13 +17,13 @@ public class DrawingTrigger : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            objectPosition.z += 2;
+            position.z += 2;
             positionTransform();
         }
     }
 
     private void positionTransform()
     {
-        this.transform.position = objectPosition;
+        this.transform.position = position;
     }
 }
