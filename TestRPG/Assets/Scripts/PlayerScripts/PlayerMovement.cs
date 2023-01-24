@@ -25,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 down_right;
     private Vector2 empty_vector;
 
+    private bool inAnim = false;
+
     private enum movementState
     {
         walk,
@@ -102,52 +104,56 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        animator.SetFloat("Speed", movement.sqrMagnitude * (currentSpeed / 5));
-
-        if (movement_sign.Equals(empty_vector))
+        if (!inAnim)
         {
-            return;
+            animator.SetFloat("Speed", movement.sqrMagnitude * (currentSpeed / 5));
+
+            if (movement_sign.Equals(empty_vector))
+            {
+                return;
+            }
+
+            lastPosition = currentPosition;
+
+            switch (movement_sign)
+            {
+                case Vector2 v when v.Equals(up_left):
+                    currentPosition = position.IsUpLeft;
+                    break;
+                case Vector2 v when v.Equals(up_right):
+                    currentPosition = position.IsUpRight;
+                    break;
+                case Vector2 v when v.Equals(down_left):
+                    currentPosition = position.IsDownLeft;
+                    break;
+                case Vector2 v when v.Equals(down_right):
+                    currentPosition = position.IsDownRight;
+                    break;
+
+                case Vector2 v when v.Equals(Vector2.up):
+                    currentPosition = position.IsUp;
+                    break;
+                case Vector2 v when v.Equals(Vector2.down):
+                    currentPosition = position.IsDown;
+                    break;
+                case Vector2 v when v.Equals(Vector2.right):
+                    currentPosition = position.IsRight;
+                    break;
+                case Vector2 v when v.Equals(Vector2.left):
+                    currentPosition = position.IsLeft;
+                    break;
+            }
+
+            LightController.LightTransform(currentPosition.ToString());
+
+            animator.SetBool(lastPosition.ToString(), false);
+            animator.SetBool(currentPosition.ToString(), true);
         }
-
-        lastPosition = currentPosition;
-
-        switch (movement_sign)
-        {
-            case Vector2 v when v.Equals(up_left):
-                currentPosition = position.IsUpLeft;
-                break;
-            case Vector2 v when v.Equals(up_right):
-                currentPosition = position.IsUpRight;
-                break;
-            case Vector2 v when v.Equals(down_left):
-                currentPosition = position.IsDownLeft;
-                break;
-            case Vector2 v when v.Equals(down_right):
-                currentPosition = position.IsDownRight;
-                break;
-
-            case Vector2 v when v.Equals(Vector2.up):
-                currentPosition = position.IsUp;
-                break;
-            case Vector2 v when v.Equals(Vector2.down):
-                currentPosition = position.IsDown;
-                break;
-            case Vector2 v when v.Equals(Vector2.right):
-                currentPosition = position.IsRight;
-                break;
-            case Vector2 v when v.Equals(Vector2.left):
-                currentPosition = position.IsLeft;
-                break;
-        }
-
-        LightController.LightTransform(currentPosition.ToString());
-
-        animator.SetBool(lastPosition.ToString(), false);
-        animator.SetBool(currentPosition.ToString(), true);
     }
 
     void FixedUpdate()
     {
         body.MovePosition(body.position + currentSpeed * Time.fixedDeltaTime * movement);
     }
+
 }

@@ -1,10 +1,11 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class NotePickupScript : MonoBehaviour
 {
     [SerializeField] private NoteScript noteScript;
     [SerializeField] private string HeaderText;
-    [SerializeField] private string NoteText;
+    [SerializeField] private List<string> NoteText;
 
     private bool reading = false;
     private bool inRange = false;
@@ -24,7 +25,12 @@ public class NotePickupScript : MonoBehaviour
             else
             {
                 if (Input.anyKeyDown)
-                    CloseNote();
+                    if (noteScript.havePages() > 0)
+                        noteScript.SwitchPage();
+                    else
+                    {
+                        CloseNote();
+                    }
             }
         }
     }
@@ -41,7 +47,7 @@ public class NotePickupScript : MonoBehaviour
 
     private void ReadNote()
     {
-        noteScript.PickupCurrentNote(HeaderText, NoteText);
+        noteScript.PickupCurrentNote(HeaderText, NoteText, NoteText.Count);
         reading = true;
     }
 

@@ -17,5 +17,5 @@ public class ItemTriggerScript : MonoBehaviour
                 Debug.Log("Slot cant added");
             }
         }
-    }
+    }   
 }
